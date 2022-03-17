@@ -1,0 +1,1147 @@
+openapi: 3.0.2
+info:
+  description: Exchanges OAuth tokens for NATS tokens
+  title: NATS Token Exchange
+  version: "0.1"
+servers:
+- url: https://api.server.test/v1
+paths:
+  /healthz:
+    get:
+      description: Runs a health check
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Error
+      summary: Health check
+      tags:
+      - management
+  /tokens:
+    post:
+      description: Create a new NATS token for a given public NKey. The user requesting
+        must control the associated private key also in order to connect to NATS as
+        the token is not enough on its own
+      requestBody:
+        $ref: '#/components/requestBodies/TokenRequestData'
+        content:
+          application/json:
+            schema:
+              example:
+                user_name: user_name
+                user_pub_key: user_pub_key
+              properties:
+                user_pub_key:
+                  description: The Public NKey of the user that is requesting a token
+                  type: string
+                user_name:
+                  description: Friendly user name
+                  type: string
+              title: TokenRequestData
+              type: object
+        required: true
+      responses:
+        "201":
+          content:
+            application/jwt:
+              schema:
+                description: The JWT as a raw string
+                example: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJleHAiOjE2NDU3ODQ0MjYsImp0aSI6IlRXSVM0NEoyNDZFQkNQWkNGNkdXVkNYNkFXSlhPSVhZUFkySkVXWVo2NjRVUTNKWlMzS1EiLCJpYXQiOjE2NDU2OTgwMjYsImlzcyI6IkFEWFdVTVJTT1hPQU5GUlI2QVRLWDRGNEhHS1I0SEdBTFBaQ1haWVJJQlVGUlRSRDJFNFlWTVFGIiwibmFtZSI6InRlc3QtdXNlciIsInN1YiI6IlVCSDRQUkYzWUtNWlpJTzMyNFJHM1FTMkZPT1Y3REtQWFdCRFdLTVJDNUVSSUlIWDdQWUdXQ1dJIiwibmF0cyI6eyJwdWIiOnsiYWxsb3ciOlsicmVxdWVzdC5hbGwiLCJyZXF1ZXN0LmNvbnRleHQuXHUwMDNlIiwiY2FuY2VsLmFsbCIsImNhbmNlbC5jb250ZXh0Llx1MDAzZSIsInJldHVybi5pdGVtLlx1MDAzZSIsInJldHVybi5yZXNwb25zZS5cdTAwM2UiXX0sInN1YiI6eyJhbGxvdyI6WyJyZXR1cm4uaXRlbS5cdTAwM2UiLCJyZXR1cm4ucmVzcG9uc2UuXHUwMDNlIiwicmVxdWVzdC5hbGwiLCJyZXF1ZXN0LmNvbnRleHQuXHUwMDNlIiwiY2FuY2VsLmFsbCIsImNhbmNlbC5jb250ZXh0Llx1MDAzZSJdfSwicmVzcCI6eyJtYXgiOjAsInR0bCI6MH0sInN1YnMiOjEwMDAwMDAsImRhdGEiOjkyMjMzNzIwMzY4NTQ3NzU4MDcsInBheWxvYWQiOjEwMDAwMDAsImFsbG93ZWRfY29ubmVjdGlvbl90eXBlcyI6WyJTVEFOREFSRCJdLCJ0eXBlIjoidXNlciIsInZlcnNpb24iOjJ9fQ.zXI7DDHHtm5F3sQlcaMxuZQ4OudLbysKaXVLbtmMVy9j9DjPm5T_Yl_xZkVJQ34d8xsCVZOHK8EPWa9CD-KODw
+                type: string
+          description: Created
+        "403":
+          description: Permission denied
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+      summary: Generates new NATS tokens
+      tags:
+      - auth
+  /accounts:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AccountClaims'
+                type: array
+          description: OK
+      summary: Returns a list of all accounts
+      tags:
+      - auth
+    post:
+      description: Creates an account JWT
+      requestBody:
+        $ref: '#/components/requestBodies/AccountRequestData'
+        content:
+          application/json:
+            schema:
+              example:
+                name: overmind-development
+              properties:
+                name:
+                  example: overmind-development
+                  type: string
+              title: AccountRequestData
+              type: object
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountClaims'
+          description: Created
+        "403":
+          description: Permission denied
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+      summary: Creates a new account
+      tags:
+      - auth
+  /accounts/{accountName}:
+    delete:
+      parameters:
+      - description: The name of the account to return
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: OK
+        "404":
+          description: Not Found
+        "403":
+          description: Forbidden
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal server error
+      summary: Deletes an account
+      tags:
+      - auth
+    get:
+      parameters:
+      - description: The name of the account to return
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountClaims'
+          description: OK
+        "404":
+          description: Not Found
+        "500":
+          description: Internal server error
+      summary: Returns details of an account by name
+      tags:
+      - auth
+components:
+  requestBodies:
+    AccountRequestData:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccountRequestData'
+    TokenRequestData:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TokenRequestData'
+      required: true
+  schemas:
+    Account:
+      description: Account holds account specific claims data
+      example:
+        default_permissions:
+          sub:
+            allow:
+            - allow
+            - allow
+            deny:
+            - deny
+            - deny
+          resp:
+            max: 5
+            ttl: 5
+          pub:
+            allow:
+            - allow
+            - allow
+            deny:
+            - deny
+            - deny
+        mappings:
+          key:
+          - cluster: cluster
+            subject: subject
+            weight: 9
+          - cluster: cluster
+            subject: subject
+            weight: 9
+        imports:
+        - local_subject: local_subject
+          subject: subject
+          name: name
+          share: true
+          to: to
+          type: type
+          account: account
+          token: token
+        - local_subject: local_subject
+          subject: subject
+          name: name
+          share: true
+          to: to
+          type: type
+          account: account
+          token: token
+        revocations:
+          key: 9
+        exports:
+        - revocations:
+            key: 9
+          account_token_position: 2
+          subject: subject
+          name: name
+          description: description
+          response_type: response_type
+          token_req: true
+          type: type
+          service_latency:
+            sampling: 3
+            results: results
+          advertise: true
+          info_url: info_url
+          response_threshold: 7
+        - revocations:
+            key: 9
+          account_token_position: 2
+          subject: subject
+          name: name
+          description: description
+          response_type: response_type
+          token_req: true
+          type: type
+          service_latency:
+            sampling: 3
+            results: results
+          advertise: true
+          info_url: info_url
+          response_threshold: 7
+        description: description
+        signing_keys:
+        - signing_keys
+        - signing_keys
+        type: type
+        version: 6
+        info_url: info_url
+        limits:
+          conn: 2
+          imports: 1
+          data: 7
+          subs: 5
+          exports: 1
+          max_bytes_required: true
+          streams: 4
+          wildcards: true
+          leaf: 6
+          mem_storage: 7
+          disk_storage: 1
+          payload: 1
+          consumer: 4
+        tags:
+        - tags
+        - tags
+      properties:
+        default_permissions:
+          $ref: '#/components/schemas/Permissions'
+        description:
+          type: string
+        exports:
+          description: Exports is a slice of exports
+          items:
+            $ref: '#/components/schemas/Export'
+          type: array
+        imports:
+          description: Imports is a list of import structs
+          items:
+            $ref: '#/components/schemas/Import'
+          type: array
+        info_url:
+          type: string
+        limits:
+          $ref: '#/components/schemas/OperatorLimits'
+        mappings:
+          additionalProperties:
+            items:
+              $ref: '#/components/schemas/WeightedMapping'
+            type: array
+          type: object
+        revocations:
+          additionalProperties:
+            format: int64
+            type: integer
+          description: RevocationList is used to store a mapping of public keys to
+            unix timestamps
+          type: object
+        signing_keys:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+        tags:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        type:
+          description: ClaimType is used to indicate the type of JWT being stored
+            in a Claim
+          type: string
+        version:
+          format: int64
+          type: integer
+      type: object
+    AccountLimits:
+      properties:
+        conn:
+          format: int64
+          type: integer
+        exports:
+          format: int64
+          type: integer
+        imports:
+          format: int64
+          type: integer
+        leaf:
+          format: int64
+          type: integer
+        wildcards:
+          type: boolean
+      type: object
+    CIDRList:
+      $ref: '#/components/schemas/TagList'
+    ClaimType:
+      description: ClaimType is used to indicate the type of JWT being stored in a
+        Claim
+      type: string
+    ClaimsData:
+      description: ClaimsData is the base struct for all claims
+      properties:
+        aud:
+          type: string
+        exp:
+          format: int64
+          type: integer
+        iat:
+          format: int64
+          type: integer
+        iss:
+          type: string
+        jti:
+          type: string
+        name:
+          type: string
+        nbf:
+          format: int64
+          type: integer
+        sub:
+          type: string
+      type: object
+    Duration:
+      description: |-
+        A Duration represents the elapsed time between two instants
+        as an int64 nanosecond count. The representation limits the
+        largest representable duration to approximately 290 years.
+      format: int64
+      type: integer
+    Export:
+      description: Export represents a single export
+      example:
+        revocations:
+          key: 9
+        account_token_position: 2
+        subject: subject
+        name: name
+        description: description
+        response_type: response_type
+        token_req: true
+        type: type
+        service_latency:
+          sampling: 3
+          results: results
+        advertise: true
+        info_url: info_url
+        response_threshold: 7
+      properties:
+        account_token_position:
+          format: uint64
+          type: integer
+        advertise:
+          type: boolean
+        description:
+          type: string
+        info_url:
+          type: string
+        name:
+          type: string
+        response_threshold:
+          description: |-
+            A Duration represents the elapsed time between two instants
+            as an int64 nanosecond count. The representation limits the
+            largest representable duration to approximately 290 years.
+          format: int64
+          type: integer
+        response_type:
+          description: ResponseType is used to store an export response type
+          type: string
+        revocations:
+          additionalProperties:
+            format: int64
+            type: integer
+          description: RevocationList is used to store a mapping of public keys to
+            unix timestamps
+          type: object
+        service_latency:
+          $ref: '#/components/schemas/ServiceLatency'
+        subject:
+          description: Subject is a string that represents a NATS subject
+          type: string
+        token_req:
+          type: boolean
+        type:
+          title: ExportType defines the type of import/export.
+          type: string
+      type: object
+    ExportType:
+      title: ExportType defines the type of import/export.
+      type: string
+    Exports:
+      description: Exports is a slice of exports
+      items:
+        $ref: '#/components/schemas/Export'
+      type: array
+    GenericFields:
+      properties:
+        tags:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        type:
+          description: ClaimType is used to indicate the type of JWT being stored
+            in a Claim
+          type: string
+        version:
+          format: int64
+          type: integer
+      type: object
+    Import:
+      description: Import describes a mapping from another account into this one
+      example:
+        local_subject: local_subject
+        subject: subject
+        name: name
+        share: true
+        to: to
+        type: type
+        account: account
+        token: token
+      properties:
+        account:
+          type: string
+        local_subject:
+          description: Subject is a string that represents a NATS subject
+          type: string
+        name:
+          type: string
+        share:
+          type: boolean
+        subject:
+          description: Subject is a string that represents a NATS subject
+          type: string
+        to:
+          description: Subject is a string that represents a NATS subject
+          type: string
+        token:
+          type: string
+        type:
+          title: ExportType defines the type of import/export.
+          type: string
+      type: object
+    Imports:
+      description: Imports is a list of import structs
+      items:
+        $ref: '#/components/schemas/Import'
+      type: array
+    Info:
+      properties:
+        description:
+          type: string
+        info_url:
+          type: string
+      type: object
+    JetStreamLimits:
+      properties:
+        consumer:
+          format: int64
+          type: integer
+        disk_storage:
+          format: int64
+          type: integer
+        max_bytes_required:
+          type: boolean
+        mem_storage:
+          format: int64
+          type: integer
+        streams:
+          format: int64
+          type: integer
+      type: object
+    Limits:
+      description: Limits are used to control acccess for users and importing accounts
+      properties:
+        data:
+          format: int64
+          type: integer
+        payload:
+          format: int64
+          type: integer
+        src:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        subs:
+          format: int64
+          type: integer
+        times:
+          items:
+            $ref: '#/components/schemas/TimeRange'
+          type: array
+        times_location:
+          type: string
+      type: object
+    Mapping:
+      additionalProperties:
+        items:
+          $ref: '#/components/schemas/WeightedMapping'
+        type: array
+      type: object
+    NatsLimits:
+      properties:
+        data:
+          format: int64
+          type: integer
+        payload:
+          format: int64
+          type: integer
+        subs:
+          format: int64
+          type: integer
+      type: object
+    Operator:
+      description: Operator specific claims
+      properties:
+        account_server_url:
+          description: |-
+            AccountServerURL is a partial URL like "https://host.domain.org:<port>/jwt/v1"
+            tools will use the prefix and build queries by appending /accounts/<account_id>
+            or /operator to the path provided. Note this assumes that the account server
+            can handle requests in a nats-account-server compatible way. See
+            https://github.com/nats-io/nats-account-server.
+          type: string
+        assert_server_version:
+          description: Min Server version
+          type: string
+        operator_service_urls:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+        signing_keys:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+        strict_signing_key_usage:
+          description: Signing of subordinate objects will require signing keys
+          type: boolean
+        system_account:
+          description: Identity of the system account
+          type: string
+        tags:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        type:
+          description: ClaimType is used to indicate the type of JWT being stored
+            in a Claim
+          type: string
+        version:
+          format: int64
+          type: integer
+      type: object
+    OperatorLimits:
+      description: OperatorLimits are used to limit access by an account
+      example:
+        conn: 2
+        imports: 1
+        data: 7
+        subs: 5
+        exports: 1
+        max_bytes_required: true
+        streams: 4
+        wildcards: true
+        leaf: 6
+        mem_storage: 7
+        disk_storage: 1
+        payload: 1
+        consumer: 4
+      properties:
+        conn:
+          format: int64
+          type: integer
+        consumer:
+          format: int64
+          type: integer
+        data:
+          format: int64
+          type: integer
+        disk_storage:
+          format: int64
+          type: integer
+        exports:
+          format: int64
+          type: integer
+        imports:
+          format: int64
+          type: integer
+        leaf:
+          format: int64
+          type: integer
+        max_bytes_required:
+          type: boolean
+        mem_storage:
+          format: int64
+          type: integer
+        payload:
+          format: int64
+          type: integer
+        streams:
+          format: int64
+          type: integer
+        subs:
+          format: int64
+          type: integer
+        wildcards:
+          type: boolean
+      type: object
+    Permission:
+      description: Permission defines allow/deny subjects
+      example:
+        allow:
+        - allow
+        - allow
+        deny:
+        - deny
+        - deny
+      properties:
+        allow:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+        deny:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+      type: object
+    Permissions:
+      description: "Permissions are used to restrict subject access, either on a user\
+        \ or for everyone on a server by default"
+      example:
+        sub:
+          allow:
+          - allow
+          - allow
+          deny:
+          - deny
+          - deny
+        resp:
+          max: 5
+          ttl: 5
+        pub:
+          allow:
+          - allow
+          - allow
+          deny:
+          - deny
+          - deny
+      properties:
+        pub:
+          $ref: '#/components/schemas/Permission'
+        resp:
+          $ref: '#/components/schemas/ResponsePermission'
+        sub:
+          $ref: '#/components/schemas/Permission'
+      type: object
+    RenamingSubject:
+      $ref: '#/components/schemas/Subject'
+    ResponsePermission:
+      description: |-
+        ResponsePermission can be used to allow responses to any reply subject
+        that is received on a valid subscription.
+      example:
+        max: 5
+        ttl: 5
+      properties:
+        max:
+          format: int64
+          type: integer
+        ttl:
+          description: |-
+            A Duration represents the elapsed time between two instants
+            as an int64 nanosecond count. The representation limits the
+            largest representable duration to approximately 290 years.
+          format: int64
+          type: integer
+      type: object
+    ResponseType:
+      description: ResponseType is used to store an export response type
+      type: string
+    RevocationList:
+      additionalProperties:
+        format: int64
+        type: integer
+      description: RevocationList is used to store a mapping of public keys to unix
+        timestamps
+      type: object
+    SamplingRate:
+      format: int64
+      type: integer
+    Scope:
+      properties:
+        SigningKey:
+          type: string
+      type: object
+    ServiceLatency:
+      description: "ServiceLatency is used when observing and exported service for\n\
+        latency measurements.\nSampling 1-100, represents sampling rate, defaults\
+        \ to 100.\nResults is the subject where the latency metrics are published.\n\
+        A metric will be defined by the nats-server's ServiceLatency. Time durations\n\
+        are in nanoseconds.\nsee https://github.com/nats-io/nats-server/blob/main/server/accounts.go#L524\n\
+        e.g.\n{\n\"app\": \"dlc22\",\n\"start\": \"2019-09-16T21:46:23.636869585-07:00\"\
+        ,\n\"svc\": 219732,\n\"nats\": {\n\"req\": 320415,\n\"resp\": 228268,\n\"\
+        sys\": 0\n},\n\"total\": 768415\n}"
+      example:
+        sampling: 3
+        results: results
+      properties:
+        results:
+          description: Subject is a string that represents a NATS subject
+          type: string
+        sampling:
+          format: int64
+          type: integer
+      type: object
+    StringList:
+      description: StringList is a wrapper for an array of strings
+      items:
+        type: string
+      type: array
+    Subject:
+      description: Subject is a string that represents a NATS subject
+      type: string
+    TagList:
+      description: |-
+        TagList is a unique array of lower case strings
+        All tag list methods lower case the strings in the arguments
+      items:
+        type: string
+      type: array
+    TimeRange:
+      description: TimeRange is used to represent a start and end time
+      properties:
+        end:
+          type: string
+        start:
+          type: string
+      type: object
+    User:
+      description: User defines the user specific data in a user JWT
+      properties:
+        allowed_connection_types:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+        bearer_token:
+          type: boolean
+        data:
+          format: int64
+          type: integer
+        issuer_account:
+          description: "IssuerAccount stores the public key for the account the issuer\
+            \ represents.\nWhen set, the claim was issued by a signing key."
+          type: string
+        payload:
+          format: int64
+          type: integer
+        pub:
+          $ref: '#/components/schemas/Permission'
+        resp:
+          $ref: '#/components/schemas/ResponsePermission'
+        src:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        sub:
+          $ref: '#/components/schemas/Permission'
+        subs:
+          format: int64
+          type: integer
+        tags:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        times:
+          items:
+            $ref: '#/components/schemas/TimeRange'
+          type: array
+        times_location:
+          type: string
+        type:
+          description: ClaimType is used to indicate the type of JWT being stored
+            in a Claim
+          type: string
+        version:
+          format: int64
+          type: integer
+      type: object
+    UserLimits:
+      description: Src is a comma separated list of CIDR specifications
+      properties:
+        src:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        times:
+          items:
+            $ref: '#/components/schemas/TimeRange'
+          type: array
+        times_location:
+          type: string
+      type: object
+    UserPermissionLimits:
+      properties:
+        allowed_connection_types:
+          description: StringList is a wrapper for an array of strings
+          items:
+            type: string
+          type: array
+        bearer_token:
+          type: boolean
+        data:
+          format: int64
+          type: integer
+        payload:
+          format: int64
+          type: integer
+        pub:
+          $ref: '#/components/schemas/Permission'
+        resp:
+          $ref: '#/components/schemas/ResponsePermission'
+        src:
+          description: |-
+            TagList is a unique array of lower case strings
+            All tag list methods lower case the strings in the arguments
+          items:
+            type: string
+          type: array
+        sub:
+          $ref: '#/components/schemas/Permission'
+        subs:
+          format: int64
+          type: integer
+        times:
+          items:
+            $ref: '#/components/schemas/TimeRange'
+          type: array
+        times_location:
+          type: string
+      type: object
+    WeightedMapping:
+      description: Mapping for publishes
+      example:
+        cluster: cluster
+        subject: subject
+        weight: 9
+      properties:
+        cluster:
+          type: string
+        subject:
+          description: Subject is a string that represents a NATS subject
+          type: string
+        weight:
+          format: uint8
+          type: integer
+      type: object
+    AccountClaims:
+      description: AccountClaims defines the body of an account JWT
+      example:
+        aud: aud
+        sub: sub
+        nats:
+          default_permissions:
+            sub:
+              allow:
+              - allow
+              - allow
+              deny:
+              - deny
+              - deny
+            resp:
+              max: 5
+              ttl: 5
+            pub:
+              allow:
+              - allow
+              - allow
+              deny:
+              - deny
+              - deny
+          mappings:
+            key:
+            - cluster: cluster
+              subject: subject
+              weight: 9
+            - cluster: cluster
+              subject: subject
+              weight: 9
+          imports:
+          - local_subject: local_subject
+            subject: subject
+            name: name
+            share: true
+            to: to
+            type: type
+            account: account
+            token: token
+          - local_subject: local_subject
+            subject: subject
+            name: name
+            share: true
+            to: to
+            type: type
+            account: account
+            token: token
+          revocations:
+            key: 9
+          exports:
+          - revocations:
+              key: 9
+            account_token_position: 2
+            subject: subject
+            name: name
+            description: description
+            response_type: response_type
+            token_req: true
+            type: type
+            service_latency:
+              sampling: 3
+              results: results
+            advertise: true
+            info_url: info_url
+            response_threshold: 7
+          - revocations:
+              key: 9
+            account_token_position: 2
+            subject: subject
+            name: name
+            description: description
+            response_type: response_type
+            token_req: true
+            type: type
+            service_latency:
+              sampling: 3
+              results: results
+            advertise: true
+            info_url: info_url
+            response_threshold: 7
+          description: description
+          signing_keys:
+          - signing_keys
+          - signing_keys
+          type: type
+          version: 6
+          info_url: info_url
+          limits:
+            conn: 2
+            imports: 1
+            data: 7
+            subs: 5
+            exports: 1
+            max_bytes_required: true
+            streams: 4
+            wildcards: true
+            leaf: 6
+            mem_storage: 7
+            disk_storage: 1
+            payload: 1
+            consumer: 4
+          tags:
+          - tags
+          - tags
+        nbf: 1
+        iss: iss
+        name: name
+        exp: 0
+        iat: 6
+        jti: jti
+      properties:
+        aud:
+          type: string
+        exp:
+          format: int64
+          type: integer
+        iat:
+          format: int64
+          type: integer
+        iss:
+          type: string
+        jti:
+          type: string
+        name:
+          type: string
+        nbf:
+          format: int64
+          type: integer
+        sub:
+          type: string
+        nats:
+          $ref: '#/components/schemas/Account'
+      type: object
+    OperatorClaims:
+      description: OperatorClaims define the data for an operator JWT
+      properties:
+        aud:
+          type: string
+        exp:
+          format: int64
+          type: integer
+        iat:
+          format: int64
+          type: integer
+        iss:
+          type: string
+        jti:
+          type: string
+        name:
+          type: string
+        nbf:
+          format: int64
+          type: integer
+        sub:
+          type: string
+        nats:
+          $ref: '#/components/schemas/Operator'
+      type: object
+    UserClaims:
+      description: UserClaims defines a user JWT
+      properties:
+        aud:
+          type: string
+        exp:
+          format: int64
+          type: integer
+        iat:
+          format: int64
+          type: integer
+        iss:
+          type: string
+        jti:
+          type: string
+        name:
+          type: string
+        nbf:
+          format: int64
+          type: integer
+        sub:
+          type: string
+        nats:
+          $ref: '#/components/schemas/User'
+      type: object
+    TokenRequestData:
+      example:
+        user_name: user_name
+        user_pub_key: user_pub_key
+      properties:
+        user_pub_key:
+          description: The Public NKey of the user that is requesting a token
+          type: string
+        user_name:
+          description: Friendly user name
+          type: string
+      title: TokenRequestData
+      type: object
+    AccountRequestData:
+      example:
+        name: overmind-development
+      properties:
+        name:
+          example: overmind-development
+          type: string
+      title: AccountRequestData
+      type: object
+  securitySchemes:
+    Auth0-Development:
+      description: Authenticates against the development environment for Auth0
+      flows:
+        clientCredentials:
+          scopes:
+            request:send: Ability to generate NATS tokens which can send requests
+              on the NATS network and listen for responses
+            request:receive: Ability to generate NATS tokens which can receive requests
+              from the network and respond to them
+            account:read: Read information about accounts
+            account:write: Create new accounts
+          tokenUrl: https://dev-qsurrmp8.eu.auth0.com/oauth/token
+      type: oauth2
