@@ -1,4 +1,4 @@
-module github.com/overmindtech/tokenx
+module github.com/overmindtech/tokenx-client
 
 go 1.17
 
