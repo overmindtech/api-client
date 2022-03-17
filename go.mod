@@ -1,4 +1,4 @@
-module github.com/overmindtech/nats-token-exchange-go
+module github.com/overmindtech/tokenx
 
 go 1.17
 
