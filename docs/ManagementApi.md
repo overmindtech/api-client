@@ -1,6 +1,6 @@
 # \ManagementApi
 
-All URIs are relative to *https://api.server.test/v1*
+All URIs are relative to *https://api.server.test/api/nats*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

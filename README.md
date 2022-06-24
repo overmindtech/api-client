@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), tokenx.ContextOperationServerVaria
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.server.test/v1*
+All URIs are relative to *https://api.server.test/api/nats*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

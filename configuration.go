@@ -105,7 +105,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://api.server.test/v1",
+				URL: "https://api.server.test/api/nats",
 				Description: "No description provided",
 			},
 		},

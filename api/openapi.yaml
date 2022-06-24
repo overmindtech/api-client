@@ -4,7 +4,7 @@ info:
   title: NATS Token Exchange
   version: "0.1"
 servers:
-- url: https://api.server.test/v1
+- url: https://api.server.test/api/nats
 paths:
   /healthz:
     get:
@@ -24,22 +24,10 @@ paths:
         must control the associated private key also in order to connect to NATS as
         the token is not enough on its own
       requestBody:
-        $ref: '#/components/requestBodies/TokenRequestData'
         content:
           application/json:
             schema:
-              example:
-                user_name: user_name
-                user_pub_key: user_pub_key
-              properties:
-                user_pub_key:
-                  description: The Public NKey of the user that is requesting a token
-                  type: string
-                user_name:
-                  description: Friendly user name
-                  type: string
-              title: TokenRequestData
-              type: object
+              $ref: '#/components/schemas/TokenRequestData'
         required: true
       responses:
         "201":
@@ -76,18 +64,10 @@ paths:
     post:
       description: Creates an account JWT
       requestBody:
-        $ref: '#/components/requestBodies/AccountRequestData'
         content:
           application/json:
             schema:
-              example:
-                name: overmind-development
-              properties:
-                name:
-                  example: overmind-development
-                  type: string
-              title: AccountRequestData
-              type: object
+              $ref: '#/components/schemas/AccountRequestData'
       responses:
         "201":
           content:
@@ -154,18 +134,6 @@ paths:
       tags:
       - auth
 components:
-  requestBodies:
-    AccountRequestData:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccountRequestData'
-    TokenRequestData:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TokenRequestData'
-      required: true
   schemas:
     Account:
       description: Account holds account specific claims data
