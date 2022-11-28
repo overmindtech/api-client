@@ -1,6 +1,6 @@
-module github.com/overmindtech/tokenx-client
+module github.com/overmindtech/api-client
 
-go 1.17
+go 1.19
 
 require golang.org/x/oauth2 v0.2.0
 
@@ -8,5 +8,5 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	golang.org/x/net v0.2.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
+	google.golang.org/protobuf v1.28.0 // indirect
 )
