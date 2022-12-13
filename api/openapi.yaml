@@ -4,7 +4,7 @@ info:
   title: Overmind API
   version: "0.2"
 servers:
-- url: https://api.server.test/api/nats
+- url: https://api.overmind.tech
 paths:
   /healthz:
     get:
@@ -848,7 +848,7 @@ components:
             source:read: Read source information
             source:write: "Create, update and delete sources"
             request:receive: Receive requests and respond to them
-            request:send: "Ability to send requests to subjects like request.context.{context}"
+            request:send: "Ability to send requests to subjects like request.scope.{scope}"
             reverselink:ingest: Ability to communicate with imported requests and
               items subjects from other accounts
             reverselink:request: Can make requests to the revlink service
@@ -865,7 +865,7 @@ components:
             source:read: Read source information
             source:write: "Create, update and delete sources"
             request:receive: Receive requests and respond to them
-            request:send: "Ability to send requests to subjects like request.context.{context}"
+            request:send: "Ability to send requests to subjects like request.scope.{scope}"
             reverselink:ingest: Ability to communicate with imported requests and
               items subjects from other accounts
             reverselink:request: Can make requests to the revlink service

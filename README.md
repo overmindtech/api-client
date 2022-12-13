@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), overmind.ContextOperationServerVar
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.server.test/api/nats*
+All URIs are relative to *https://api.overmind.tech*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -127,7 +127,7 @@ Class | Method | HTTP request | Description
  - **source:read**: Read source information
  - **source:write**: Create, update and delete sources
  - **request:receive**: Receive requests and respond to them
- - **request:send**: Ability to send requests to subjects like request.context.{context}
+ - **request:send**: Ability to send requests to subjects like request.scope.{scope}
  - **reverselink:ingest**: Ability to communicate with imported requests and items subjects from other accounts
  - **reverselink:request**: Can make requests to the revlink service
  - **reverselink:respond**: Can respond to reverse linking requests
@@ -167,7 +167,7 @@ r, err := client.Service.Operation(auth, args)
  - **source:read**: Read source information
  - **source:write**: Create, update and delete sources
  - **request:receive**: Receive requests and respond to them
- - **request:send**: Ability to send requests to subjects like request.context.{context}
+ - **request:send**: Ability to send requests to subjects like request.scope.{scope}
  - **reverselink:ingest**: Ability to communicate with imported requests and items subjects from other accounts
  - **reverselink:request**: Can make requests to the revlink service
  - **reverselink:respond**: Can respond to reverse linking requests

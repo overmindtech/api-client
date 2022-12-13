@@ -1,6 +1,6 @@
 # \AdminApi
 
-All URIs are relative to *https://api.server.test/api/nats*
+All URIs are relative to *https://api.overmind.tech*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
