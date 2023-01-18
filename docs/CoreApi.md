@@ -7,17 +7,16 @@ Method | HTTP request | Description
 [**CreateSource**](CoreApi.md#CreateSource) | **Post** /core/sources | Sources - Create
 [**CreateToken**](CoreApi.md#CreateToken) | **Post** /core/tokens | Generate a NATS token
 [**DeleteSource**](CoreApi.md#DeleteSource) | **Delete** /core/sources/{source_id} | Sources - Delete
-[**GetOrg**](CoreApi.md#GetOrg) | **Get** /core/org | Org - Get details
+[**GetAccount**](CoreApi.md#GetAccount) | **Get** /core/account | Account - Get details
 [**GetSource**](CoreApi.md#GetSource) | **Get** /core/sources/{source_id} | Sources - Get details
 [**ListSources**](CoreApi.md#ListSources) | **Get** /core/sources | Sources - List
-[**UpdateOrg**](CoreApi.md#UpdateOrg) | **Put** /core/org | Org - Update
 [**UpdateSource**](CoreApi.md#UpdateSource) | **Put** /core/sources/{source_id} | Sources - Update
 
 
 
 ## CreateSource
 
-> Source CreateSource(ctx, orgId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+> Source CreateSource(ctx).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
 
 Sources - Create
 
@@ -36,12 +35,11 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
     adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest() // AdminCreateSourceRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CoreApi.CreateSource(context.Background(), orgId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+    resp, r, err := apiClient.CoreApi.CreateSource(context.Background()).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.CreateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -54,10 +52,6 @@ func main() {
 ### Path Parameters
 
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
 
 ### Other Parameters
 
@@ -66,7 +60,6 @@ Other parameters are passed through a pointer to a apiCreateSourceRequest struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-
  **adminCreateSourceRequest** | [**AdminCreateSourceRequest**](AdminCreateSourceRequest.md) |  | 
 
 ### Return type
@@ -221,11 +214,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetOrg
+## GetAccount
 
-> Organization GetOrg(ctx).Execute()
+> Account GetAccount(ctx).Execute()
 
-Org - Get details
+Account - Get details
 
 
 
@@ -245,13 +238,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CoreApi.GetOrg(context.Background()).Execute()
+    resp, r, err := apiClient.CoreApi.GetAccount(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.GetOrg``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.GetAccount``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetOrg`: Organization
-    fmt.Fprintf(os.Stdout, "Response from `CoreApi.GetOrg`: %v\n", resp)
+    // response from `GetAccount`: Account
+    fmt.Fprintf(os.Stdout, "Response from `CoreApi.GetAccount`: %v\n", resp)
 }
 ```
 
@@ -261,12 +254,12 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetOrgRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetAccountRequest struct via the builder pattern
 
 
 ### Return type
 
-[**Organization**](Organization.md)
+[**Account**](Account.md)
 
 ### Authorization
 
@@ -354,7 +347,7 @@ Name | Type | Description  | Notes
 
 ## ListSources
 
-> []Organization ListSources(ctx).Execute()
+> []Source ListSources(ctx).Execute()
 
 Sources - List
 
@@ -381,7 +374,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.ListSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ListSources`: []Organization
+    // response from `ListSources`: []Source
     fmt.Fprintf(os.Stdout, "Response from `CoreApi.ListSources`: %v\n", resp)
 }
 ```
@@ -397,7 +390,7 @@ Other parameters are passed through a pointer to a apiListSourcesRequest struct 
 
 ### Return type
 
-[**[]Organization**](Organization.md)
+[**[]Source**](Source.md)
 
 ### Authorization
 
@@ -406,72 +399,6 @@ Other parameters are passed through a pointer to a apiListSourcesRequest struct 
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## UpdateOrg
-
-> Organization UpdateOrg(ctx).AdminCreateOrgRequest(adminCreateOrgRequest).Execute()
-
-Org - Update
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    adminCreateOrgRequest := *openapiclient.NewAdminCreateOrgRequest() // AdminCreateOrgRequest | 
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CoreApi.UpdateOrg(context.Background()).AdminCreateOrgRequest(adminCreateOrgRequest).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.UpdateOrg``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `UpdateOrg`: Organization
-    fmt.Fprintf(os.Stdout, "Response from `CoreApi.UpdateOrg`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiUpdateOrgRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **adminCreateOrgRequest** | [**AdminCreateOrgRequest**](AdminCreateOrgRequest.md) |  | 
-
-### Return type
-
-[**Organization**](Organization.md)
-
-### Authorization
-
-[OAuth2](../README.md#OAuth2), [OAuth2](../README.md#OAuth2)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

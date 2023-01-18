@@ -1,7 +1,7 @@
 /*
 Overmind API
 
-Exchanges OAuth tokens for NATS tokens
+API for managing your Overmind account
 
 API version: 0.2
 */

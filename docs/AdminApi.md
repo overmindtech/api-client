@@ -4,25 +4,24 @@ All URIs are relative to *https://api.overmind.tech*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AdminCreateOrg**](AdminApi.md#AdminCreateOrg) | **Post** /admin/orgs | Orgs - Create
-[**AdminCreateSource**](AdminApi.md#AdminCreateSource) | **Post** /admin/orgs/{org_id}/sources | Sources - Create
-[**AdminCreateToken**](AdminApi.md#AdminCreateToken) | **Post** /admin/orgs/{org_id}/tokens | Generate a NATS token
-[**AdminDeleteOrg**](AdminApi.md#AdminDeleteOrg) | **Delete** /admin/orgs/{org_id} | Orgs - Delete
-[**AdminDeleteSource**](AdminApi.md#AdminDeleteSource) | **Delete** /admin/orgs/{org_id}/sources/{source_id} | Sources - Delete
-[**AdminGetOrg**](AdminApi.md#AdminGetOrg) | **Get** /admin/orgs/{org_id} | Orgs - Get details
-[**AdminGetSource**](AdminApi.md#AdminGetSource) | **Get** /admin/orgs/{org_id}/sources/{source_id} | Sources - Get details
-[**AdminListOrgs**](AdminApi.md#AdminListOrgs) | **Get** /admin/orgs | Orgs - List
-[**AdminListSources**](AdminApi.md#AdminListSources) | **Get** /admin/orgs/{org_id}/sources | Sources - List
-[**AdminUpdateOrg**](AdminApi.md#AdminUpdateOrg) | **Put** /admin/orgs/{org_id} | Orgs - Update
-[**AdminUpdateSource**](AdminApi.md#AdminUpdateSource) | **Put** /admin/orgs/{org_id}/sources/{source_id} | Sources - Update
+[**AdminCreateAccount**](AdminApi.md#AdminCreateAccount) | **Post** /admin/accounts | Accounts - Create
+[**AdminCreateSource**](AdminApi.md#AdminCreateSource) | **Post** /admin/accounts/{account_name}/sources | Sources - Create
+[**AdminCreateToken**](AdminApi.md#AdminCreateToken) | **Post** /admin/accounts/{account_name}/tokens | Generate a NATS token
+[**AdminDeleteAccount**](AdminApi.md#AdminDeleteAccount) | **Delete** /admin/accounts/{account_name} | Accounts - Delete
+[**AdminDeleteSource**](AdminApi.md#AdminDeleteSource) | **Delete** /admin/accounts/{account_name}/sources/{source_id} | Sources - Delete
+[**AdminGetAccount**](AdminApi.md#AdminGetAccount) | **Get** /admin/accounts/{account_name} | Accounts - Get details
+[**AdminGetSource**](AdminApi.md#AdminGetSource) | **Get** /admin/accounts/{account_name}/sources/{source_id} | Sources - Get details
+[**AdminListAccounts**](AdminApi.md#AdminListAccounts) | **Get** /admin/accounts | Accounts - List
+[**AdminListSources**](AdminApi.md#AdminListSources) | **Get** /admin/accounts/{account_name}/sources | Sources - List
+[**AdminUpdateSource**](AdminApi.md#AdminUpdateSource) | **Put** /admin/accounts/{account_name}/sources/{source_id} | Sources - Update
 
 
 
-## AdminCreateOrg
+## AdminCreateAccount
 
-> Organization AdminCreateOrg(ctx).AdminCreateOrgRequest(adminCreateOrgRequest).Execute()
+> Account AdminCreateAccount(ctx).AdminCreateAccountRequest(adminCreateAccountRequest).Execute()
 
-Orgs - Create
+Accounts - Create
 
 
 
@@ -39,17 +38,17 @@ import (
 )
 
 func main() {
-    adminCreateOrgRequest := *openapiclient.NewAdminCreateOrgRequest() // AdminCreateOrgRequest | 
+    adminCreateAccountRequest := *openapiclient.NewAdminCreateAccountRequest() // AdminCreateAccountRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminCreateOrg(context.Background()).AdminCreateOrgRequest(adminCreateOrgRequest).Execute()
+    resp, r, err := apiClient.AdminApi.AdminCreateAccount(context.Background()).AdminCreateAccountRequest(adminCreateAccountRequest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminCreateOrg``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminCreateAccount``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `AdminCreateOrg`: Organization
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminCreateOrg`: %v\n", resp)
+    // response from `AdminCreateAccount`: Account
+    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminCreateAccount`: %v\n", resp)
 }
 ```
 
@@ -59,16 +58,16 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAdminCreateOrgRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAdminCreateAccountRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **adminCreateOrgRequest** | [**AdminCreateOrgRequest**](AdminCreateOrgRequest.md) |  | 
+ **adminCreateAccountRequest** | [**AdminCreateAccountRequest**](AdminCreateAccountRequest.md) |  | 
 
 ### Return type
 
-[**Organization**](Organization.md)
+[**Account**](Account.md)
 
 ### Authorization
 
@@ -86,7 +85,7 @@ Name | Type | Description  | Notes
 
 ## AdminCreateSource
 
-> Source AdminCreateSource(ctx, orgId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+> Source AdminCreateSource(ctx, accountName).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
 
 Sources - Create
 
@@ -105,12 +104,12 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
     adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest() // AdminCreateSourceRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminCreateSource(context.Background(), orgId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+    resp, r, err := apiClient.AdminApi.AdminCreateSource(context.Background(), accountName).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminCreateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -126,7 +125,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 
 ### Other Parameters
 
@@ -158,7 +157,7 @@ Name | Type | Description  | Notes
 
 ## AdminCreateToken
 
-> string AdminCreateToken(ctx, orgId).TokenRequestData(tokenRequestData).Execute()
+> string AdminCreateToken(ctx, accountName).TokenRequestData(tokenRequestData).Execute()
 
 Generate a NATS token
 
@@ -177,12 +176,12 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
     tokenRequestData := *openapiclient.NewTokenRequestData() // TokenRequestData | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminCreateToken(context.Background(), orgId).TokenRequestData(tokenRequestData).Execute()
+    resp, r, err := apiClient.AdminApi.AdminCreateToken(context.Background(), accountName).TokenRequestData(tokenRequestData).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminCreateToken``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -198,7 +197,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 
 ### Other Parameters
 
@@ -228,11 +227,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## AdminDeleteOrg
+## AdminDeleteAccount
 
-> AdminDeleteOrg(ctx, orgId).Execute()
+> AdminDeleteAccount(ctx, accountName).Execute()
 
-Orgs - Delete
+Accounts - Delete
 
 
 
@@ -249,13 +248,13 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminDeleteOrg(context.Background(), orgId).Execute()
+    resp, r, err := apiClient.AdminApi.AdminDeleteAccount(context.Background(), accountName).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminDeleteOrg``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminDeleteAccount``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -267,11 +266,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAdminDeleteOrgRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAdminDeleteAccountRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -298,7 +297,7 @@ Name | Type | Description  | Notes
 
 ## AdminDeleteSource
 
-> AdminDeleteSource(ctx, orgId, sourceId).Execute()
+> AdminDeleteSource(ctx, accountName, sourceId).Execute()
 
 Sources - Delete
 
@@ -317,12 +316,12 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
     sourceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | ID of the source
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminDeleteSource(context.Background(), orgId, sourceId).Execute()
+    resp, r, err := apiClient.AdminApi.AdminDeleteSource(context.Background(), accountName, sourceId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminDeleteSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -336,7 +335,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 **sourceId** | **string** | ID of the source | 
 
 ### Other Parameters
@@ -367,11 +366,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## AdminGetOrg
+## AdminGetAccount
 
-> Organization AdminGetOrg(ctx, orgId).Execute()
+> Account AdminGetAccount(ctx, accountName).Execute()
 
-Orgs - Get details
+Accounts - Get details
 
 
 
@@ -388,17 +387,17 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminGetOrg(context.Background(), orgId).Execute()
+    resp, r, err := apiClient.AdminApi.AdminGetAccount(context.Background(), accountName).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminGetOrg``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminGetAccount``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `AdminGetOrg`: Organization
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminGetOrg`: %v\n", resp)
+    // response from `AdminGetAccount`: Account
+    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminGetAccount`: %v\n", resp)
 }
 ```
 
@@ -408,11 +407,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAdminGetOrgRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAdminGetAccountRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -421,7 +420,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Organization**](Organization.md)
+[**Account**](Account.md)
 
 ### Authorization
 
@@ -439,7 +438,7 @@ Name | Type | Description  | Notes
 
 ## AdminGetSource
 
-> Source AdminGetSource(ctx, orgId, sourceId).Execute()
+> Source AdminGetSource(ctx, accountName, sourceId).Execute()
 
 Sources - Get details
 
@@ -458,12 +457,12 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
     sourceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | ID of the source
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminGetSource(context.Background(), orgId, sourceId).Execute()
+    resp, r, err := apiClient.AdminApi.AdminGetSource(context.Background(), accountName, sourceId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminGetSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -479,7 +478,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 **sourceId** | **string** | ID of the source | 
 
 ### Other Parameters
@@ -510,11 +509,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## AdminListOrgs
+## AdminListAccounts
 
-> []Organization AdminListOrgs(ctx).Execute()
+> []Account AdminListAccounts(ctx).Execute()
 
-Orgs - List
+Accounts - List
 
 
 
@@ -534,13 +533,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminListOrgs(context.Background()).Execute()
+    resp, r, err := apiClient.AdminApi.AdminListAccounts(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminListOrgs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminListAccounts``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `AdminListOrgs`: []Organization
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminListOrgs`: %v\n", resp)
+    // response from `AdminListAccounts`: []Account
+    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminListAccounts`: %v\n", resp)
 }
 ```
 
@@ -550,12 +549,12 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAdminListOrgsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiAdminListAccountsRequest struct via the builder pattern
 
 
 ### Return type
 
-[**[]Organization**](Organization.md)
+[**[]Account**](Account.md)
 
 ### Authorization
 
@@ -573,7 +572,7 @@ Other parameters are passed through a pointer to a apiAdminListOrgsRequest struc
 
 ## AdminListSources
 
-> []Source AdminListSources(ctx, orgId).Execute()
+> []Source AdminListSources(ctx, accountName).Execute()
 
 Sources - List
 
@@ -592,11 +591,11 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminListSources(context.Background(), orgId).Execute()
+    resp, r, err := apiClient.AdminApi.AdminListSources(context.Background(), accountName).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminListSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -612,7 +611,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 
 ### Other Parameters
 
@@ -641,81 +640,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## AdminUpdateOrg
-
-> Organization AdminUpdateOrg(ctx, orgId).AdminCreateOrgRequest(adminCreateOrgRequest).Execute()
-
-Orgs - Update
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    orgId := "orgId_example" // string | The id of the org
-    adminCreateOrgRequest := *openapiclient.NewAdminCreateOrgRequest() // AdminCreateOrgRequest | 
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminUpdateOrg(context.Background(), orgId).AdminCreateOrgRequest(adminCreateOrgRequest).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminUpdateOrg``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `AdminUpdateOrg`: Organization
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.AdminUpdateOrg`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiAdminUpdateOrgRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **adminCreateOrgRequest** | [**AdminCreateOrgRequest**](AdminCreateOrgRequest.md) |  | 
-
-### Return type
-
-[**Organization**](Organization.md)
-
-### Authorization
-
-[OAuth2](../README.md#OAuth2), [OAuth2](../README.md#OAuth2)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## AdminUpdateSource
 
-> AdminUpdateSource(ctx, orgId, sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+> AdminUpdateSource(ctx, accountName, sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
 
 Sources - Update
 
@@ -734,13 +661,13 @@ import (
 )
 
 func main() {
-    orgId := "orgId_example" // string | The id of the org
+    accountName := "accountName_example" // string | The name of the account
     sourceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | ID of the source
     adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest() // AdminCreateSourceRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminUpdateSource(context.Background(), orgId, sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+    resp, r, err := apiClient.AdminApi.AdminUpdateSource(context.Background(), accountName, sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminUpdateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -754,7 +681,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**orgId** | **string** | The id of the org | 
+**accountName** | **string** | The name of the account | 
 **sourceId** | **string** | ID of the source | 
 
 ### Other Parameters

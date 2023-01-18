@@ -1,7 +1,7 @@
 /*
 Overmind API
 
-Exchanges OAuth tokens for NATS tokens
+API for managing your Overmind account
 
 API version: 0.2
 */
@@ -26,7 +26,6 @@ type CoreApiService service
 type ApiCreateSourceRequest struct {
 	ctx context.Context
 	ApiService *CoreApiService
-	orgId string
 	adminCreateSourceRequest *AdminCreateSourceRequest
 }
 
@@ -42,17 +41,15 @@ func (r ApiCreateSourceRequest) Execute() (*Source, *http.Response, error) {
 /*
 CreateSource Sources - Create
 
-Creates a new source within the user's org
+Creates a new source within the user's account
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param orgId The id of the org
  @return ApiCreateSourceRequest
 */
-func (a *CoreApiService) CreateSource(ctx context.Context, orgId string) ApiCreateSourceRequest {
+func (a *CoreApiService) CreateSource(ctx context.Context) ApiCreateSourceRequest {
 	return ApiCreateSourceRequest{
 		ApiService: a,
 		ctx: ctx,
-		orgId: orgId,
 	}
 }
 
@@ -72,14 +69,10 @@ func (a *CoreApiService) CreateSourceExecute(r ApiCreateSourceRequest) (*Source,
 	}
 
 	localVarPath := localBasePath + "/core/sources"
-	localVarPath = strings.Replace(localVarPath, "{"+"org_id"+"}", url.PathEscape(parameterValueToString(r.orgId, "orgId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if strlen(r.orgId) < 1 {
-		return localVarReturnValue, nil, reportError("orgId must have at least 1 elements")
-	}
 	if r.adminCreateSourceRequest == nil {
 		return localVarReturnValue, nil, reportError("adminCreateSourceRequest is required and must be specified")
 	}
@@ -263,7 +256,7 @@ func (r ApiDeleteSourceRequest) Execute() (*http.Response, error) {
 /*
 DeleteSource Sources - Delete
 
-Deletes a source from a user's org
+Deletes a source from a user's account
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param sourceId ID of the source
@@ -348,46 +341,46 @@ func (a *CoreApiService) DeleteSourceExecute(r ApiDeleteSourceRequest) (*http.Re
 	return localVarHTTPResponse, nil
 }
 
-type ApiGetOrgRequest struct {
+type ApiGetAccountRequest struct {
 	ctx context.Context
 	ApiService *CoreApiService
 }
 
-func (r ApiGetOrgRequest) Execute() (*Organization, *http.Response, error) {
-	return r.ApiService.GetOrgExecute(r)
+func (r ApiGetAccountRequest) Execute() (*Account, *http.Response, error) {
+	return r.ApiService.GetAccountExecute(r)
 }
 
 /*
-GetOrg Org - Get details
+GetAccount Account - Get details
 
-Get the details of the org that this user belongs to
+Get the details of the account that this user belongs to
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetOrgRequest
+ @return ApiGetAccountRequest
 */
-func (a *CoreApiService) GetOrg(ctx context.Context) ApiGetOrgRequest {
-	return ApiGetOrgRequest{
+func (a *CoreApiService) GetAccount(ctx context.Context) ApiGetAccountRequest {
+	return ApiGetAccountRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return Organization
-func (a *CoreApiService) GetOrgExecute(r ApiGetOrgRequest) (*Organization, *http.Response, error) {
+//  @return Account
+func (a *CoreApiService) GetAccountExecute(r ApiGetAccountRequest) (*Account, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Organization
+		localVarReturnValue  *Account
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreApiService.GetOrg")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreApiService.GetAccount")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/core/org"
+	localVarPath := localBasePath + "/core/account"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -561,14 +554,14 @@ type ApiListSourcesRequest struct {
 	ApiService *CoreApiService
 }
 
-func (r ApiListSourcesRequest) Execute() ([]Organization, *http.Response, error) {
+func (r ApiListSourcesRequest) Execute() ([]Source, *http.Response, error) {
 	return r.ApiService.ListSourcesExecute(r)
 }
 
 /*
 ListSources Sources - List
 
-Lists all sources within the user's org
+Lists all sources within the user's account
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListSourcesRequest
@@ -581,13 +574,13 @@ func (a *CoreApiService) ListSources(ctx context.Context) ApiListSourcesRequest 
 }
 
 // Execute executes the request
-//  @return []Organization
-func (a *CoreApiService) ListSourcesExecute(r ApiListSourcesRequest) ([]Organization, *http.Response, error) {
+//  @return []Source
+func (a *CoreApiService) ListSourcesExecute(r ApiListSourcesRequest) ([]Source, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []Organization
+		localVarReturnValue  []Source
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreApiService.ListSources")
@@ -618,116 +611,6 @@ func (a *CoreApiService) ListSourcesExecute(r ApiListSourcesRequest) ([]Organiza
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiUpdateOrgRequest struct {
-	ctx context.Context
-	ApiService *CoreApiService
-	adminCreateOrgRequest *AdminCreateOrgRequest
-}
-
-func (r ApiUpdateOrgRequest) AdminCreateOrgRequest(adminCreateOrgRequest AdminCreateOrgRequest) ApiUpdateOrgRequest {
-	r.adminCreateOrgRequest = &adminCreateOrgRequest
-	return r
-}
-
-func (r ApiUpdateOrgRequest) Execute() (*Organization, *http.Response, error) {
-	return r.ApiService.UpdateOrgExecute(r)
-}
-
-/*
-UpdateOrg Org - Update
-
-Updates the details of the org that the user belongs to
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiUpdateOrgRequest
-*/
-func (a *CoreApiService) UpdateOrg(ctx context.Context) ApiUpdateOrgRequest {
-	return ApiUpdateOrgRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return Organization
-func (a *CoreApiService) UpdateOrgExecute(r ApiUpdateOrgRequest) (*Organization, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Organization
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "CoreApiService.UpdateOrg")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/core/org"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.adminCreateOrgRequest == nil {
-		return localVarReturnValue, nil, reportError("adminCreateOrgRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.adminCreateOrgRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

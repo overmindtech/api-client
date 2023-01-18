@@ -1,7 +1,7 @@
 /*
 Overmind API
 
-Exchanges OAuth tokens for NATS tokens
+API for managing your Overmind account
 
 API version: 0.2
 */
@@ -222,7 +222,11 @@ func parameterAddToQuery(queryParams interface{}, keyPrefix string, obj interfac
 
 	switch valuesMap := queryParams.(type) {
 		case url.Values:
-			valuesMap.Add( keyPrefix, value )
+			if collectionType == "csv" && valuesMap.Get(keyPrefix) != "" {
+				valuesMap.Set(keyPrefix, valuesMap.Get(keyPrefix) + "," + value)
+			} else {
+				valuesMap.Add(keyPrefix, value)
+			}
 			break
 		case map[string]string:
 			valuesMap[keyPrefix] = value
