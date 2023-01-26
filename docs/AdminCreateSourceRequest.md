@@ -5,9 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DescriptiveName** | Pointer to **string** | The descriptive name of the source | [optional] 
-**IdToken** | Pointer to **string** | OAuth ID token that the source should use | [optional] 
-**AccessToken** | Pointer to **string** | OAuth token that allows the source to respond to requests | [optional] 
-**RefreshToken** | Pointer to **string** | OAuth refresh token that can be exchanged for a new access_token | [optional] 
 **Replicas** | Pointer to **float32** | How many replicas of the source to run??? Do we need this? | [optional] 
 **Image** | Pointer to **string** | Docker image of the source | [optional] 
 **Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what config is available/required | [optional] 
@@ -55,81 +52,6 @@ SetDescriptiveName sets DescriptiveName field to given value.
 `func (o *AdminCreateSourceRequest) HasDescriptiveName() bool`
 
 HasDescriptiveName returns a boolean if a field has been set.
-
-### GetIdToken
-
-`func (o *AdminCreateSourceRequest) GetIdToken() string`
-
-GetIdToken returns the IdToken field if non-nil, zero value otherwise.
-
-### GetIdTokenOk
-
-`func (o *AdminCreateSourceRequest) GetIdTokenOk() (*string, bool)`
-
-GetIdTokenOk returns a tuple with the IdToken field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIdToken
-
-`func (o *AdminCreateSourceRequest) SetIdToken(v string)`
-
-SetIdToken sets IdToken field to given value.
-
-### HasIdToken
-
-`func (o *AdminCreateSourceRequest) HasIdToken() bool`
-
-HasIdToken returns a boolean if a field has been set.
-
-### GetAccessToken
-
-`func (o *AdminCreateSourceRequest) GetAccessToken() string`
-
-GetAccessToken returns the AccessToken field if non-nil, zero value otherwise.
-
-### GetAccessTokenOk
-
-`func (o *AdminCreateSourceRequest) GetAccessTokenOk() (*string, bool)`
-
-GetAccessTokenOk returns a tuple with the AccessToken field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAccessToken
-
-`func (o *AdminCreateSourceRequest) SetAccessToken(v string)`
-
-SetAccessToken sets AccessToken field to given value.
-
-### HasAccessToken
-
-`func (o *AdminCreateSourceRequest) HasAccessToken() bool`
-
-HasAccessToken returns a boolean if a field has been set.
-
-### GetRefreshToken
-
-`func (o *AdminCreateSourceRequest) GetRefreshToken() string`
-
-GetRefreshToken returns the RefreshToken field if non-nil, zero value otherwise.
-
-### GetRefreshTokenOk
-
-`func (o *AdminCreateSourceRequest) GetRefreshTokenOk() (*string, bool)`
-
-GetRefreshTokenOk returns a tuple with the RefreshToken field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRefreshToken
-
-`func (o *AdminCreateSourceRequest) SetRefreshToken(v string)`
-
-SetRefreshToken sets RefreshToken field to given value.
-
-### HasRefreshToken
-
-`func (o *AdminCreateSourceRequest) HasRefreshToken() bool`
-
-HasRefreshToken returns a boolean if a field has been set.
 
 ### GetReplicas
 

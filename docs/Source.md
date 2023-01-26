@@ -6,9 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DescriptiveName** | Pointer to **string** | The descriptive name of the source | [optional] 
 **SourceId** | Pointer to **string** | Unique ID of the source | [optional] 
-**IdToken** | Pointer to **string** | OAuth ID token that the source should use | [optional] 
-**AccessToken** | Pointer to **string** | OAuth token that allows the source to respond to requests | [optional] 
-**RefreshToken** | Pointer to **string** | OAuth refresh token that can be exchanged for a new access_token | [optional] 
+**TokenName** | Pointer to **string** | The name of the nats JWT that has been generated for this source | [optional] 
+**TokenExpiry** | Pointer to **float32** | When the NATS JWT expires (unix time) | [optional] 
+**PublicNkey** | Pointer to **string** | The public NKey associated with the NATS JWT | [optional] 
 **Replicas** | Pointer to **float32** | How many replicas of the source to run??? Do we need this? | [optional] 
 **Image** | Pointer to **string** | Docker image of the source | [optional] 
 **Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what config is available/required | [optional] 
@@ -82,80 +82,80 @@ SetSourceId sets SourceId field to given value.
 
 HasSourceId returns a boolean if a field has been set.
 
-### GetIdToken
+### GetTokenName
 
-`func (o *Source) GetIdToken() string`
+`func (o *Source) GetTokenName() string`
 
-GetIdToken returns the IdToken field if non-nil, zero value otherwise.
+GetTokenName returns the TokenName field if non-nil, zero value otherwise.
 
-### GetIdTokenOk
+### GetTokenNameOk
 
-`func (o *Source) GetIdTokenOk() (*string, bool)`
+`func (o *Source) GetTokenNameOk() (*string, bool)`
 
-GetIdTokenOk returns a tuple with the IdToken field if it's non-nil, zero value otherwise
+GetTokenNameOk returns a tuple with the TokenName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIdToken
+### SetTokenName
 
-`func (o *Source) SetIdToken(v string)`
+`func (o *Source) SetTokenName(v string)`
 
-SetIdToken sets IdToken field to given value.
+SetTokenName sets TokenName field to given value.
 
-### HasIdToken
+### HasTokenName
 
-`func (o *Source) HasIdToken() bool`
+`func (o *Source) HasTokenName() bool`
 
-HasIdToken returns a boolean if a field has been set.
+HasTokenName returns a boolean if a field has been set.
 
-### GetAccessToken
+### GetTokenExpiry
 
-`func (o *Source) GetAccessToken() string`
+`func (o *Source) GetTokenExpiry() float32`
 
-GetAccessToken returns the AccessToken field if non-nil, zero value otherwise.
+GetTokenExpiry returns the TokenExpiry field if non-nil, zero value otherwise.
 
-### GetAccessTokenOk
+### GetTokenExpiryOk
 
-`func (o *Source) GetAccessTokenOk() (*string, bool)`
+`func (o *Source) GetTokenExpiryOk() (*float32, bool)`
 
-GetAccessTokenOk returns a tuple with the AccessToken field if it's non-nil, zero value otherwise
+GetTokenExpiryOk returns a tuple with the TokenExpiry field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAccessToken
+### SetTokenExpiry
 
-`func (o *Source) SetAccessToken(v string)`
+`func (o *Source) SetTokenExpiry(v float32)`
 
-SetAccessToken sets AccessToken field to given value.
+SetTokenExpiry sets TokenExpiry field to given value.
 
-### HasAccessToken
+### HasTokenExpiry
 
-`func (o *Source) HasAccessToken() bool`
+`func (o *Source) HasTokenExpiry() bool`
 
-HasAccessToken returns a boolean if a field has been set.
+HasTokenExpiry returns a boolean if a field has been set.
 
-### GetRefreshToken
+### GetPublicNkey
 
-`func (o *Source) GetRefreshToken() string`
+`func (o *Source) GetPublicNkey() string`
 
-GetRefreshToken returns the RefreshToken field if non-nil, zero value otherwise.
+GetPublicNkey returns the PublicNkey field if non-nil, zero value otherwise.
 
-### GetRefreshTokenOk
+### GetPublicNkeyOk
 
-`func (o *Source) GetRefreshTokenOk() (*string, bool)`
+`func (o *Source) GetPublicNkeyOk() (*string, bool)`
 
-GetRefreshTokenOk returns a tuple with the RefreshToken field if it's non-nil, zero value otherwise
+GetPublicNkeyOk returns a tuple with the PublicNkey field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRefreshToken
+### SetPublicNkey
 
-`func (o *Source) SetRefreshToken(v string)`
+`func (o *Source) SetPublicNkey(v string)`
 
-SetRefreshToken sets RefreshToken field to given value.
+SetPublicNkey sets PublicNkey field to given value.
 
-### HasRefreshToken
+### HasPublicNkey
 
-`func (o *Source) HasRefreshToken() bool`
+`func (o *Source) HasPublicNkey() bool`
 
-HasRefreshToken returns a boolean if a field has been set.
+HasPublicNkey returns a boolean if a field has been set.
 
 ### GetReplicas
 

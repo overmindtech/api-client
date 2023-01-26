@@ -2,9 +2,9 @@ openapi: 3.0.2
 info:
   description: API for managing your Overmind account
   title: Overmind API
-  version: "0.2"
+  version: "0.4"
 servers:
-- url: https://api.overmind.tech
+- url: https://www.df.overmind-demo.com/api
 paths:
   /healthz:
     get:
@@ -57,11 +57,13 @@ paths:
           description: Created
         "403":
           description: Forbidden
+        "409":
+          description: Conflict (already exists)
         "500":
           description: Internal Server Error
       security:
       - OAuth2:
-        - admin:write
+        - account:create
       summary: Accounts - Create
       tags:
       - admin
@@ -191,6 +193,8 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
+        "409":
+          description: Conflict (already exists)
         "500":
           description: Internal Server Error
       security:
@@ -436,6 +440,8 @@ paths:
           description: Forbidden
         "404":
           description: Not Found
+        "409":
+          description: Conflict (already exists)
         "500":
           description: Internal Server Error
       security:
@@ -623,13 +629,13 @@ components:
     Source:
       description: A source that is capable of discovering items
       example:
-        access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbXktZG9tYWluLmF1dGgwLmNvbSIsInN1YiI6ImF1dGgwfDEyMzQ1NiIsImF1ZCI6IjEyMzRhYmNkZWYiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwibmFtZSI6IkphbmUgRG9lIiwiZ2l2ZW5fbmFtZSI6IkphbmUiLCJmYW1pbHlfbmFtZSI6IkRvZSJ9.bql-jxlG9B_bielkqOnjTY9Di9FillFb6IMQINXoYsw
-        refresh_token: FHB5M4wVyKPWAa0BaX3i
         image: ghcr.io/overmindtech/stdlib-source:main
-        replicas: 0.8008281904610115
-        id_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbXktZG9tYWluLmF1dGgwLmNvbSIsInN1YiI6ImF1dGgwfDEyMzQ1NiIsImF1ZCI6IjEyMzRhYmNkZWYiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwibmFtZSI6IkphbmUgRG9lIiwiZ2l2ZW5fbmFtZSI6IkphbmUiLCJmYW1pbHlfbmFtZSI6IkRvZSJ9.bql-jxlG9B_bielkqOnjTY9Di9FillFb6IMQINXoYsw
+        replicas: 6.027456183070403
+        token_name: token_name
         descriptive_name: stdlib
         source_id: d05aa312-02df-4c8f-89b9-6f875e9ae8ef
+        public_nkey: public_nkey
+        token_expiry: 0.8008281904610115
         config:
           key: config
       properties:
@@ -644,17 +650,14 @@ components:
           maxLength: 36
           minLength: 36
           type: string
-        id_token:
-          description: OAuth ID token that the source should use
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbXktZG9tYWluLmF1dGgwLmNvbSIsInN1YiI6ImF1dGgwfDEyMzQ1NiIsImF1ZCI6IjEyMzRhYmNkZWYiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwibmFtZSI6IkphbmUgRG9lIiwiZ2l2ZW5fbmFtZSI6IkphbmUiLCJmYW1pbHlfbmFtZSI6IkRvZSJ9.bql-jxlG9B_bielkqOnjTY9Di9FillFb6IMQINXoYsw
+        token_name:
+          description: The name of the nats JWT that has been generated for this source
           type: string
-        access_token:
-          description: OAuth token that allows the source to respond to requests
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbXktZG9tYWluLmF1dGgwLmNvbSIsInN1YiI6ImF1dGgwfDEyMzQ1NiIsImF1ZCI6IjEyMzRhYmNkZWYiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwibmFtZSI6IkphbmUgRG9lIiwiZ2l2ZW5fbmFtZSI6IkphbmUiLCJmYW1pbHlfbmFtZSI6IkRvZSJ9.bql-jxlG9B_bielkqOnjTY9Di9FillFb6IMQINXoYsw
-          type: string
-        refresh_token:
-          description: OAuth refresh token that can be exchanged for a new access_token
-          example: FHB5M4wVyKPWAa0BaX3i
+        token_expiry:
+          description: When the NATS JWT expires (unix time)
+          type: number
+        public_nkey:
+          description: The public NKey associated with the NATS JWT
           type: string
         replicas:
           description: How many replicas of the source to run??? Do we need this?
@@ -706,20 +709,6 @@ components:
           description: The descriptive name of the source
           example: stdlib
           type: string
-        id_token:
-          description: OAuth ID token that the source should use
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbXktZG9tYWluLmF1dGgwLmNvbSIsInN1YiI6ImF1dGgwfDEyMzQ1NiIsImF1ZCI6IjEyMzRhYmNkZWYiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwibmFtZSI6IkphbmUgRG9lIiwiZ2l2ZW5fbmFtZSI6IkphbmUiLCJmYW1pbHlfbmFtZSI6IkRvZSJ9.bql-jxlG9B_bielkqOnjTY9Di9FillFb6IMQINXoYsw
-          type: string
-        access_token:
-          description: OAuth token that allows the source to respond to requests
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbXktZG9tYWluLmF1dGgwLmNvbSIsInN1YiI6ImF1dGgwfDEyMzQ1NiIsImF1ZCI6IjEyMzRhYmNkZWYiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwibmFtZSI6IkphbmUgRG9lIiwiZ2l2ZW5fbmFtZSI6IkphbmUiLCJmYW1pbHlfbmFtZSI6IkRvZSJ9.bql-jxlG9B_bielkqOnjTY9Di9FillFb6IMQINXoYsw
-          externalDocs:
-            url: https://github.com/overmindtech/api-server/blob/main/doc/getting_source_tokens.md
-          type: string
-        refresh_token:
-          description: OAuth refresh token that can be exchanged for a new access_token
-          example: FHB5M4wVyKPWAa0BaX3i
-          type: string
         replicas:
           description: How many replicas of the source to run??? Do we need this?
           type: number
@@ -754,12 +743,13 @@ components:
       description: Auth0 OAuth
       flows:
         authorizationCode:
-          authorizationUrl: https://dev-qsurrmp8.eu.auth0.com/authorization
+          authorizationUrl: https://om-dogfood.eu.auth0.com/authorization
           scopes:
             admin:read: Read information about all accounts and sources from the admin
               API
             admin:write: Update accounts and sources in the admin API
             account:read: Read information about your account
+            account:create: Create new accounts
             source:read: Read source information
             source:write: "Create, update and delete sources"
             request:receive: Receive requests and respond to them
@@ -769,13 +759,14 @@ components:
             reverselink:request: Can make requests to the revlink service
             reverselink:respond: Can respond to reverse linking requests
             gateway:stream: Can stream gateway responses to be picked up by revlink
-          tokenUrl: https://dev-qsurrmp8.eu.auth0.com/oauth/token
+          tokenUrl: https://om-dogfood.eu.auth0.com/oauth/token
         clientCredentials:
           scopes:
             admin:read: Read information about all accounts and sources from the admin
               API
             admin:write: Update accounts and sources in the admin API
             account:read: Read information about your account
+            account:create: Create new accounts
             source:read: Read source information
             source:write: "Create, update and delete sources"
             request:receive: Receive requests and respond to them
@@ -785,5 +776,5 @@ components:
             reverselink:request: Can make requests to the revlink service
             reverselink:respond: Can respond to reverse linking requests
             gateway:stream: Can stream gateway responses to be picked up by revlink
-          tokenUrl: https://dev-qsurrmp8.eu.auth0.com/oauth/token
+          tokenUrl: https://om-dogfood.eu.auth0.com/oauth/token
       type: oauth2

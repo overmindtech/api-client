@@ -1,6 +1,6 @@
 # \CoreApi
 
-All URIs are relative to *https://api.overmind.tech*
+All URIs are relative to *https://www.df.overmind-demo.com/api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
