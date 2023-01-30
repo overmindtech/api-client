@@ -9,9 +9,8 @@ Name | Type | Description | Notes
 **TokenName** | Pointer to **string** | The name of the nats JWT that has been generated for this source | [optional] 
 **TokenExpiry** | Pointer to **float32** | When the NATS JWT expires (unix time) | [optional] 
 **PublicNkey** | Pointer to **string** | The public NKey associated with the NATS JWT | [optional] 
-**Replicas** | Pointer to **float32** | How many replicas of the source to run??? Do we need this? | [optional] 
-**Image** | Pointer to **string** | Docker image of the source | [optional] 
-**Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what config is available/required | [optional] 
+**Type** | Pointer to **string** | What source to configure. Currently either \&quot;stdlib\&quot; or \&quot;aws\&quot; | [optional] 
+**Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what source-specific config is available/required | [optional] 
 
 ## Methods
 
@@ -157,55 +156,30 @@ SetPublicNkey sets PublicNkey field to given value.
 
 HasPublicNkey returns a boolean if a field has been set.
 
-### GetReplicas
+### GetType
 
-`func (o *Source) GetReplicas() float32`
+`func (o *Source) GetType() string`
 
-GetReplicas returns the Replicas field if non-nil, zero value otherwise.
+GetType returns the Type field if non-nil, zero value otherwise.
 
-### GetReplicasOk
+### GetTypeOk
 
-`func (o *Source) GetReplicasOk() (*float32, bool)`
+`func (o *Source) GetTypeOk() (*string, bool)`
 
-GetReplicasOk returns a tuple with the Replicas field if it's non-nil, zero value otherwise
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReplicas
+### SetType
 
-`func (o *Source) SetReplicas(v float32)`
+`func (o *Source) SetType(v string)`
 
-SetReplicas sets Replicas field to given value.
+SetType sets Type field to given value.
 
-### HasReplicas
+### HasType
 
-`func (o *Source) HasReplicas() bool`
+`func (o *Source) HasType() bool`
 
-HasReplicas returns a boolean if a field has been set.
-
-### GetImage
-
-`func (o *Source) GetImage() string`
-
-GetImage returns the Image field if non-nil, zero value otherwise.
-
-### GetImageOk
-
-`func (o *Source) GetImageOk() (*string, bool)`
-
-GetImageOk returns a tuple with the Image field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetImage
-
-`func (o *Source) SetImage(v string)`
-
-SetImage sets Image field to given value.
-
-### HasImage
-
-`func (o *Source) HasImage() bool`
-
-HasImage returns a boolean if a field has been set.
+HasType returns a boolean if a field has been set.
 
 ### GetConfig
 

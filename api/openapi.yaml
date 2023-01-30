@@ -629,12 +629,11 @@ components:
     Source:
       description: A source that is capable of discovering items
       example:
-        image: ghcr.io/overmindtech/stdlib-source:main
-        replicas: 6.027456183070403
         token_name: token_name
         descriptive_name: stdlib
         source_id: d05aa312-02df-4c8f-89b9-6f875e9ae8ef
         public_nkey: public_nkey
+        type: aws
         token_expiry: 0.8008281904610115
         config:
           key: config
@@ -659,19 +658,15 @@ components:
         public_nkey:
           description: The public NKey associated with the NATS JWT
           type: string
-        replicas:
-          description: How many replicas of the source to run??? Do we need this?
-          type: number
-        image:
-          description: Docker image of the source
-          example: ghcr.io/overmindtech/stdlib-source:main
-          minLength: 1
+        type:
+          description: What source to configure. Currently either "stdlib" or "aws"
+          example: aws
           type: string
         config:
           additionalProperties:
             type: string
           description: Config for this source. See the source documentation for what
-            config is available/required
+            source-specific config is available/required
           type: object
       type: object
     Account:
@@ -709,18 +704,15 @@ components:
           description: The descriptive name of the source
           example: stdlib
           type: string
-        replicas:
-          description: How many replicas of the source to run??? Do we need this?
-          type: number
-        image:
-          description: Docker image of the source
-          example: ghcr.io/overmindtech/stdlib-source:main
+        type:
+          description: What source to configure. Currently either "stdlib" or "aws"
+          example: aws
           type: string
         config:
           additionalProperties:
             type: string
           description: Config for this source. See the source documentation for what
-            config is available/required
+            source-specific config is available/required
           type: object
       type: object
     TokenRequestData:

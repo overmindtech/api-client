@@ -29,11 +29,9 @@ type Source struct {
 	TokenExpiry *float32 `json:"token_expiry,omitempty"`
 	// The public NKey associated with the NATS JWT
 	PublicNkey *string `json:"public_nkey,omitempty"`
-	// How many replicas of the source to run??? Do we need this?
-	Replicas *float32 `json:"replicas,omitempty"`
-	// Docker image of the source
-	Image *string `json:"image,omitempty"`
-	// Config for this source. See the source documentation for what config is available/required
+	// What source to configure. Currently either \"stdlib\" or \"aws\"
+	Type *string `json:"type,omitempty"`
+	// Config for this source. See the source documentation for what source-specific config is available/required
 	Config *map[string]string `json:"config,omitempty"`
 }
 
@@ -214,68 +212,36 @@ func (o *Source) SetPublicNkey(v string) {
 	o.PublicNkey = &v
 }
 
-// GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *Source) GetReplicas() float32 {
-	if o == nil || isNil(o.Replicas) {
-		var ret float32
-		return ret
-	}
-	return *o.Replicas
-}
-
-// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Source) GetReplicasOk() (*float32, bool) {
-	if o == nil || isNil(o.Replicas) {
-		return nil, false
-	}
-	return o.Replicas, true
-}
-
-// HasReplicas returns a boolean if a field has been set.
-func (o *Source) HasReplicas() bool {
-	if o != nil && !isNil(o.Replicas) {
-		return true
-	}
-
-	return false
-}
-
-// SetReplicas gets a reference to the given float32 and assigns it to the Replicas field.
-func (o *Source) SetReplicas(v float32) {
-	o.Replicas = &v
-}
-
-// GetImage returns the Image field value if set, zero value otherwise.
-func (o *Source) GetImage() string {
-	if o == nil || isNil(o.Image) {
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *Source) GetType() string {
+	if o == nil || isNil(o.Type) {
 		var ret string
 		return ret
 	}
-	return *o.Image
+	return *o.Type
 }
 
-// GetImageOk returns a tuple with the Image field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Source) GetImageOk() (*string, bool) {
-	if o == nil || isNil(o.Image) {
+func (o *Source) GetTypeOk() (*string, bool) {
+	if o == nil || isNil(o.Type) {
 		return nil, false
 	}
-	return o.Image, true
+	return o.Type, true
 }
 
-// HasImage returns a boolean if a field has been set.
-func (o *Source) HasImage() bool {
-	if o != nil && !isNil(o.Image) {
+// HasType returns a boolean if a field has been set.
+func (o *Source) HasType() bool {
+	if o != nil && !isNil(o.Type) {
 		return true
 	}
 
 	return false
 }
 
-// SetImage gets a reference to the given string and assigns it to the Image field.
-func (o *Source) SetImage(v string) {
-	o.Image = &v
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *Source) SetType(v string) {
+	o.Type = &v
 }
 
 // GetConfig returns the Config field value if set, zero value otherwise.
@@ -335,11 +301,8 @@ func (o Source) ToMap() (map[string]interface{}, error) {
 	if !isNil(o.PublicNkey) {
 		toSerialize["public_nkey"] = o.PublicNkey
 	}
-	if !isNil(o.Replicas) {
-		toSerialize["replicas"] = o.Replicas
-	}
-	if !isNil(o.Image) {
-		toSerialize["image"] = o.Image
+	if !isNil(o.Type) {
+		toSerialize["type"] = o.Type
 	}
 	if !isNil(o.Config) {
 		toSerialize["config"] = o.Config

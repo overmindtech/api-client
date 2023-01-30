@@ -5,9 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DescriptiveName** | Pointer to **string** | The descriptive name of the source | [optional] 
-**Replicas** | Pointer to **float32** | How many replicas of the source to run??? Do we need this? | [optional] 
-**Image** | Pointer to **string** | Docker image of the source | [optional] 
-**Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what config is available/required | [optional] 
+**Type** | Pointer to **string** | What source to configure. Currently either \&quot;stdlib\&quot; or \&quot;aws\&quot; | [optional] 
+**Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what source-specific config is available/required | [optional] 
 
 ## Methods
 
@@ -53,55 +52,30 @@ SetDescriptiveName sets DescriptiveName field to given value.
 
 HasDescriptiveName returns a boolean if a field has been set.
 
-### GetReplicas
+### GetType
 
-`func (o *AdminCreateSourceRequest) GetReplicas() float32`
+`func (o *AdminCreateSourceRequest) GetType() string`
 
-GetReplicas returns the Replicas field if non-nil, zero value otherwise.
+GetType returns the Type field if non-nil, zero value otherwise.
 
-### GetReplicasOk
+### GetTypeOk
 
-`func (o *AdminCreateSourceRequest) GetReplicasOk() (*float32, bool)`
+`func (o *AdminCreateSourceRequest) GetTypeOk() (*string, bool)`
 
-GetReplicasOk returns a tuple with the Replicas field if it's non-nil, zero value otherwise
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetReplicas
+### SetType
 
-`func (o *AdminCreateSourceRequest) SetReplicas(v float32)`
+`func (o *AdminCreateSourceRequest) SetType(v string)`
 
-SetReplicas sets Replicas field to given value.
+SetType sets Type field to given value.
 
-### HasReplicas
+### HasType
 
-`func (o *AdminCreateSourceRequest) HasReplicas() bool`
+`func (o *AdminCreateSourceRequest) HasType() bool`
 
-HasReplicas returns a boolean if a field has been set.
-
-### GetImage
-
-`func (o *AdminCreateSourceRequest) GetImage() string`
-
-GetImage returns the Image field if non-nil, zero value otherwise.
-
-### GetImageOk
-
-`func (o *AdminCreateSourceRequest) GetImageOk() (*string, bool)`
-
-GetImageOk returns a tuple with the Image field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetImage
-
-`func (o *AdminCreateSourceRequest) SetImage(v string)`
-
-SetImage sets Image field to given value.
-
-### HasImage
-
-`func (o *AdminCreateSourceRequest) HasImage() bool`
-
-HasImage returns a boolean if a field has been set.
+HasType returns a boolean if a field has been set.
 
 ### GetConfig
 
