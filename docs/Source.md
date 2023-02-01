@@ -4,19 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DescriptiveName** | Pointer to **string** | The descriptive name of the source | [optional] 
-**SourceId** | Pointer to **string** | Unique ID of the source | [optional] 
-**TokenName** | Pointer to **string** | The name of the nats JWT that has been generated for this source | [optional] 
-**TokenExpiry** | Pointer to **float32** | When the NATS JWT expires (unix time) | [optional] 
-**PublicNkey** | Pointer to **string** | The public NKey associated with the NATS JWT | [optional] 
-**Type** | Pointer to **string** | What source to configure. Currently either \&quot;stdlib\&quot; or \&quot;aws\&quot; | [optional] 
-**Config** | Pointer to **map[string]string** | Config for this source. See the source documentation for what source-specific config is available/required | [optional] 
+**DescriptiveName** | **string** | The descriptive name of the source | 
+**SourceId** | **string** | Unique ID of the source | 
+**TokenName** | **string** | The name of the nats JWT that has been generated for this source | 
+**TokenExpiry** | **float32** | When the NATS JWT expires (unix time) | 
+**PublicNkey** | **string** | The public NKey associated with the NATS JWT | 
+**Type** | **string** | What source to configure. Currently either \&quot;stdlib\&quot; or \&quot;aws\&quot; | 
+**Config** | Pointer to **map[string]interface{}** | Config for this source. See the source documentation for what source-specific config is available/required. This will be supplied directly to viper via a config file at &#x60;/etc/srcman/config/source.yaml&#x60; | [optional] 
+**AdditionalConfig** | Pointer to **map[string]string** | Additional config options that should be passed to the source. The keys of this object should be file names, and the values should be their content. These files will be made available to the source at runtime. Check the source&#39;s documentation for what to configure here if required | [optional] 
 
 ## Methods
 
 ### NewSource
 
-`func NewSource() *Source`
+`func NewSource(descriptiveName string, sourceId string, tokenName string, tokenExpiry float32, publicNkey string, type_ string, ) *Source`
 
 NewSource instantiates a new Source object
 This constructor will assign default values to properties that have it defined,
@@ -50,11 +51,6 @@ and a boolean to check if the value has been set.
 
 SetDescriptiveName sets DescriptiveName field to given value.
 
-### HasDescriptiveName
-
-`func (o *Source) HasDescriptiveName() bool`
-
-HasDescriptiveName returns a boolean if a field has been set.
 
 ### GetSourceId
 
@@ -75,11 +71,6 @@ and a boolean to check if the value has been set.
 
 SetSourceId sets SourceId field to given value.
 
-### HasSourceId
-
-`func (o *Source) HasSourceId() bool`
-
-HasSourceId returns a boolean if a field has been set.
 
 ### GetTokenName
 
@@ -100,11 +91,6 @@ and a boolean to check if the value has been set.
 
 SetTokenName sets TokenName field to given value.
 
-### HasTokenName
-
-`func (o *Source) HasTokenName() bool`
-
-HasTokenName returns a boolean if a field has been set.
 
 ### GetTokenExpiry
 
@@ -125,11 +111,6 @@ and a boolean to check if the value has been set.
 
 SetTokenExpiry sets TokenExpiry field to given value.
 
-### HasTokenExpiry
-
-`func (o *Source) HasTokenExpiry() bool`
-
-HasTokenExpiry returns a boolean if a field has been set.
 
 ### GetPublicNkey
 
@@ -150,11 +131,6 @@ and a boolean to check if the value has been set.
 
 SetPublicNkey sets PublicNkey field to given value.
 
-### HasPublicNkey
-
-`func (o *Source) HasPublicNkey() bool`
-
-HasPublicNkey returns a boolean if a field has been set.
 
 ### GetType
 
@@ -175,28 +151,23 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
-### HasType
-
-`func (o *Source) HasType() bool`
-
-HasType returns a boolean if a field has been set.
 
 ### GetConfig
 
-`func (o *Source) GetConfig() map[string]string`
+`func (o *Source) GetConfig() map[string]interface{}`
 
 GetConfig returns the Config field if non-nil, zero value otherwise.
 
 ### GetConfigOk
 
-`func (o *Source) GetConfigOk() (*map[string]string, bool)`
+`func (o *Source) GetConfigOk() (*map[string]interface{}, bool)`
 
 GetConfigOk returns a tuple with the Config field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetConfig
 
-`func (o *Source) SetConfig(v map[string]string)`
+`func (o *Source) SetConfig(v map[string]interface{})`
 
 SetConfig sets Config field to given value.
 
@@ -205,6 +176,31 @@ SetConfig sets Config field to given value.
 `func (o *Source) HasConfig() bool`
 
 HasConfig returns a boolean if a field has been set.
+
+### GetAdditionalConfig
+
+`func (o *Source) GetAdditionalConfig() map[string]string`
+
+GetAdditionalConfig returns the AdditionalConfig field if non-nil, zero value otherwise.
+
+### GetAdditionalConfigOk
+
+`func (o *Source) GetAdditionalConfigOk() (*map[string]string, bool)`
+
+GetAdditionalConfigOk returns a tuple with the AdditionalConfig field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAdditionalConfig
+
+`func (o *Source) SetAdditionalConfig(v map[string]string)`
+
+SetAdditionalConfig sets AdditionalConfig field to given value.
+
+### HasAdditionalConfig
+
+`func (o *Source) HasAdditionalConfig() bool`
+
+HasAdditionalConfig returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

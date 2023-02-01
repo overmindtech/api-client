@@ -20,19 +20,23 @@ var _ MappedNullable = &AdminCreateSourceRequest{}
 // AdminCreateSourceRequest Details to update for a source
 type AdminCreateSourceRequest struct {
 	// The descriptive name of the source
-	DescriptiveName *string `json:"descriptive_name,omitempty"`
+	DescriptiveName string `json:"descriptive_name"`
 	// What source to configure. Currently either \"stdlib\" or \"aws\"
-	Type *string `json:"type,omitempty"`
-	// Config for this source. See the source documentation for what source-specific config is available/required
-	Config *map[string]string `json:"config,omitempty"`
+	Type string `json:"type"`
+	// Config for this source. See the source documentation for what source-specific config is available/required. This will be supplied directly to viper via a config file at `/etc/srcman/config/source.yaml`
+	Config map[string]interface{} `json:"config,omitempty"`
+	// Additional config options that should be passed to the source. The keys of this object should be file names, and the values should be their content. These files will be made available to the source at runtime. Check the source's documentation for what to configure here if required
+	AdditionalConfig *map[string]string `json:"additional_config,omitempty"`
 }
 
 // NewAdminCreateSourceRequest instantiates a new AdminCreateSourceRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAdminCreateSourceRequest() *AdminCreateSourceRequest {
+func NewAdminCreateSourceRequest(descriptiveName string, type_ string) *AdminCreateSourceRequest {
 	this := AdminCreateSourceRequest{}
+	this.DescriptiveName = descriptiveName
+	this.Type = type_
 	return &this
 }
 
@@ -44,84 +48,68 @@ func NewAdminCreateSourceRequestWithDefaults() *AdminCreateSourceRequest {
 	return &this
 }
 
-// GetDescriptiveName returns the DescriptiveName field value if set, zero value otherwise.
+// GetDescriptiveName returns the DescriptiveName field value
 func (o *AdminCreateSourceRequest) GetDescriptiveName() string {
-	if o == nil || isNil(o.DescriptiveName) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.DescriptiveName
+
+	return o.DescriptiveName
 }
 
-// GetDescriptiveNameOk returns a tuple with the DescriptiveName field value if set, nil otherwise
+// GetDescriptiveNameOk returns a tuple with the DescriptiveName field value
 // and a boolean to check if the value has been set.
 func (o *AdminCreateSourceRequest) GetDescriptiveNameOk() (*string, bool) {
-	if o == nil || isNil(o.DescriptiveName) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DescriptiveName, true
+	return &o.DescriptiveName, true
 }
 
-// HasDescriptiveName returns a boolean if a field has been set.
-func (o *AdminCreateSourceRequest) HasDescriptiveName() bool {
-	if o != nil && !isNil(o.DescriptiveName) {
-		return true
-	}
-
-	return false
-}
-
-// SetDescriptiveName gets a reference to the given string and assigns it to the DescriptiveName field.
+// SetDescriptiveName sets field value
 func (o *AdminCreateSourceRequest) SetDescriptiveName(v string) {
-	o.DescriptiveName = &v
+	o.DescriptiveName = v
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
+// GetType returns the Type field value
 func (o *AdminCreateSourceRequest) GetType() string {
-	if o == nil || isNil(o.Type) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Type
+
+	return o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *AdminCreateSourceRequest) GetTypeOk() (*string, bool) {
-	if o == nil || isNil(o.Type) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return &o.Type, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *AdminCreateSourceRequest) HasType() bool {
-	if o != nil && !isNil(o.Type) {
-		return true
-	}
-
-	return false
-}
-
-// SetType gets a reference to the given string and assigns it to the Type field.
+// SetType sets field value
 func (o *AdminCreateSourceRequest) SetType(v string) {
-	o.Type = &v
+	o.Type = v
 }
 
 // GetConfig returns the Config field value if set, zero value otherwise.
-func (o *AdminCreateSourceRequest) GetConfig() map[string]string {
+func (o *AdminCreateSourceRequest) GetConfig() map[string]interface{} {
 	if o == nil || isNil(o.Config) {
-		var ret map[string]string
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.Config
+	return o.Config
 }
 
 // GetConfigOk returns a tuple with the Config field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdminCreateSourceRequest) GetConfigOk() (*map[string]string, bool) {
+func (o *AdminCreateSourceRequest) GetConfigOk() (map[string]interface{}, bool) {
 	if o == nil || isNil(o.Config) {
-		return nil, false
+		return map[string]interface{}{}, false
 	}
 	return o.Config, true
 }
@@ -135,9 +123,41 @@ func (o *AdminCreateSourceRequest) HasConfig() bool {
 	return false
 }
 
-// SetConfig gets a reference to the given map[string]string and assigns it to the Config field.
-func (o *AdminCreateSourceRequest) SetConfig(v map[string]string) {
-	o.Config = &v
+// SetConfig gets a reference to the given map[string]interface{} and assigns it to the Config field.
+func (o *AdminCreateSourceRequest) SetConfig(v map[string]interface{}) {
+	o.Config = v
+}
+
+// GetAdditionalConfig returns the AdditionalConfig field value if set, zero value otherwise.
+func (o *AdminCreateSourceRequest) GetAdditionalConfig() map[string]string {
+	if o == nil || isNil(o.AdditionalConfig) {
+		var ret map[string]string
+		return ret
+	}
+	return *o.AdditionalConfig
+}
+
+// GetAdditionalConfigOk returns a tuple with the AdditionalConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AdminCreateSourceRequest) GetAdditionalConfigOk() (*map[string]string, bool) {
+	if o == nil || isNil(o.AdditionalConfig) {
+		return nil, false
+	}
+	return o.AdditionalConfig, true
+}
+
+// HasAdditionalConfig returns a boolean if a field has been set.
+func (o *AdminCreateSourceRequest) HasAdditionalConfig() bool {
+	if o != nil && !isNil(o.AdditionalConfig) {
+		return true
+	}
+
+	return false
+}
+
+// SetAdditionalConfig gets a reference to the given map[string]string and assigns it to the AdditionalConfig field.
+func (o *AdminCreateSourceRequest) SetAdditionalConfig(v map[string]string) {
+	o.AdditionalConfig = &v
 }
 
 func (o AdminCreateSourceRequest) MarshalJSON() ([]byte, error) {
@@ -150,14 +170,13 @@ func (o AdminCreateSourceRequest) MarshalJSON() ([]byte, error) {
 
 func (o AdminCreateSourceRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.DescriptiveName) {
-		toSerialize["descriptive_name"] = o.DescriptiveName
-	}
-	if !isNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
+	toSerialize["descriptive_name"] = o.DescriptiveName
+	toSerialize["type"] = o.Type
 	if !isNil(o.Config) {
 		toSerialize["config"] = o.Config
+	}
+	if !isNil(o.AdditionalConfig) {
+		toSerialize["additional_config"] = o.AdditionalConfig
 	}
 	return toSerialize, nil
 }

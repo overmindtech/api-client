@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **string** | The name of the account | [optional] 
-**PublicNkey** | Pointer to **string** | The public Nkey which signs all NATS \&quot;user\&quot; tokens | [optional] 
+**Name** | **string** | The name of the account | 
+**PublicNkey** | **string** | The public Nkey which signs all NATS \&quot;user\&quot; tokens | 
 
 ## Methods
 
 ### NewAccount
 
-`func NewAccount() *Account`
+`func NewAccount(name string, publicNkey string, ) *Account`
 
 NewAccount instantiates a new Account object
 This constructor will assign default values to properties that have it defined,
@@ -45,11 +45,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-### HasName
-
-`func (o *Account) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetPublicNkey
 
@@ -70,11 +65,6 @@ and a boolean to check if the value has been set.
 
 SetPublicNkey sets PublicNkey field to given value.
 
-### HasPublicNkey
-
-`func (o *Account) HasPublicNkey() bool`
-
-HasPublicNkey returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

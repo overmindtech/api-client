@@ -20,17 +20,19 @@ var _ MappedNullable = &Account{}
 // Account A NATS Account
 type Account struct {
 	// The name of the account
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name"`
 	// The public Nkey which signs all NATS \"user\" tokens
-	PublicNkey *string `json:"public_nkey,omitempty"`
+	PublicNkey string `json:"public_nkey"`
 }
 
 // NewAccount instantiates a new Account object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAccount() *Account {
+func NewAccount(name string, publicNkey string) *Account {
 	this := Account{}
+	this.Name = name
+	this.PublicNkey = publicNkey
 	return &this
 }
 
@@ -42,68 +44,52 @@ func NewAccountWithDefaults() *Account {
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value
 func (o *Account) GetName() string {
-	if o == nil || isNil(o.Name) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetNameOk() (*string, bool) {
-	if o == nil || isNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *Account) HasName() bool {
-	if o != nil && !isNil(o.Name) {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value
 func (o *Account) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetPublicNkey returns the PublicNkey field value if set, zero value otherwise.
+// GetPublicNkey returns the PublicNkey field value
 func (o *Account) GetPublicNkey() string {
-	if o == nil || isNil(o.PublicNkey) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.PublicNkey
+
+	return o.PublicNkey
 }
 
-// GetPublicNkeyOk returns a tuple with the PublicNkey field value if set, nil otherwise
+// GetPublicNkeyOk returns a tuple with the PublicNkey field value
 // and a boolean to check if the value has been set.
 func (o *Account) GetPublicNkeyOk() (*string, bool) {
-	if o == nil || isNil(o.PublicNkey) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PublicNkey, true
+	return &o.PublicNkey, true
 }
 
-// HasPublicNkey returns a boolean if a field has been set.
-func (o *Account) HasPublicNkey() bool {
-	if o != nil && !isNil(o.PublicNkey) {
-		return true
-	}
-
-	return false
-}
-
-// SetPublicNkey gets a reference to the given string and assigns it to the PublicNkey field.
+// SetPublicNkey sets field value
 func (o *Account) SetPublicNkey(v string) {
-	o.PublicNkey = &v
+	o.PublicNkey = v
 }
 
 func (o Account) MarshalJSON() ([]byte, error) {
@@ -116,12 +102,8 @@ func (o Account) MarshalJSON() ([]byte, error) {
 
 func (o Account) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.Name) {
-		toSerialize["name"] = o.Name
-	}
-	if !isNil(o.PublicNkey) {
-		toSerialize["public_nkey"] = o.PublicNkey
-	}
+	toSerialize["name"] = o.Name
+	toSerialize["public_nkey"] = o.PublicNkey
 	return toSerialize, nil
 }
 

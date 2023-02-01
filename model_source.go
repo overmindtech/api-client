@@ -20,27 +20,35 @@ var _ MappedNullable = &Source{}
 // Source A source that is capable of discovering items
 type Source struct {
 	// The descriptive name of the source
-	DescriptiveName *string `json:"descriptive_name,omitempty"`
+	DescriptiveName string `json:"descriptive_name"`
 	// Unique ID of the source
-	SourceId *string `json:"source_id,omitempty"`
+	SourceId string `json:"source_id"`
 	// The name of the nats JWT that has been generated for this source
-	TokenName *string `json:"token_name,omitempty"`
+	TokenName string `json:"token_name"`
 	// When the NATS JWT expires (unix time)
-	TokenExpiry *float32 `json:"token_expiry,omitempty"`
+	TokenExpiry float32 `json:"token_expiry"`
 	// The public NKey associated with the NATS JWT
-	PublicNkey *string `json:"public_nkey,omitempty"`
+	PublicNkey string `json:"public_nkey"`
 	// What source to configure. Currently either \"stdlib\" or \"aws\"
-	Type *string `json:"type,omitempty"`
-	// Config for this source. See the source documentation for what source-specific config is available/required
-	Config *map[string]string `json:"config,omitempty"`
+	Type string `json:"type"`
+	// Config for this source. See the source documentation for what source-specific config is available/required. This will be supplied directly to viper via a config file at `/etc/srcman/config/source.yaml`
+	Config map[string]interface{} `json:"config,omitempty"`
+	// Additional config options that should be passed to the source. The keys of this object should be file names, and the values should be their content. These files will be made available to the source at runtime. Check the source's documentation for what to configure here if required
+	AdditionalConfig *map[string]string `json:"additional_config,omitempty"`
 }
 
 // NewSource instantiates a new Source object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSource() *Source {
+func NewSource(descriptiveName string, sourceId string, tokenName string, tokenExpiry float32, publicNkey string, type_ string) *Source {
 	this := Source{}
+	this.DescriptiveName = descriptiveName
+	this.SourceId = sourceId
+	this.TokenName = tokenName
+	this.TokenExpiry = tokenExpiry
+	this.PublicNkey = publicNkey
+	this.Type = type_
 	return &this
 }
 
@@ -52,212 +60,164 @@ func NewSourceWithDefaults() *Source {
 	return &this
 }
 
-// GetDescriptiveName returns the DescriptiveName field value if set, zero value otherwise.
+// GetDescriptiveName returns the DescriptiveName field value
 func (o *Source) GetDescriptiveName() string {
-	if o == nil || isNil(o.DescriptiveName) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.DescriptiveName
+
+	return o.DescriptiveName
 }
 
-// GetDescriptiveNameOk returns a tuple with the DescriptiveName field value if set, nil otherwise
+// GetDescriptiveNameOk returns a tuple with the DescriptiveName field value
 // and a boolean to check if the value has been set.
 func (o *Source) GetDescriptiveNameOk() (*string, bool) {
-	if o == nil || isNil(o.DescriptiveName) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DescriptiveName, true
+	return &o.DescriptiveName, true
 }
 
-// HasDescriptiveName returns a boolean if a field has been set.
-func (o *Source) HasDescriptiveName() bool {
-	if o != nil && !isNil(o.DescriptiveName) {
-		return true
-	}
-
-	return false
-}
-
-// SetDescriptiveName gets a reference to the given string and assigns it to the DescriptiveName field.
+// SetDescriptiveName sets field value
 func (o *Source) SetDescriptiveName(v string) {
-	o.DescriptiveName = &v
+	o.DescriptiveName = v
 }
 
-// GetSourceId returns the SourceId field value if set, zero value otherwise.
+// GetSourceId returns the SourceId field value
 func (o *Source) GetSourceId() string {
-	if o == nil || isNil(o.SourceId) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.SourceId
+
+	return o.SourceId
 }
 
-// GetSourceIdOk returns a tuple with the SourceId field value if set, nil otherwise
+// GetSourceIdOk returns a tuple with the SourceId field value
 // and a boolean to check if the value has been set.
 func (o *Source) GetSourceIdOk() (*string, bool) {
-	if o == nil || isNil(o.SourceId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.SourceId, true
+	return &o.SourceId, true
 }
 
-// HasSourceId returns a boolean if a field has been set.
-func (o *Source) HasSourceId() bool {
-	if o != nil && !isNil(o.SourceId) {
-		return true
-	}
-
-	return false
-}
-
-// SetSourceId gets a reference to the given string and assigns it to the SourceId field.
+// SetSourceId sets field value
 func (o *Source) SetSourceId(v string) {
-	o.SourceId = &v
+	o.SourceId = v
 }
 
-// GetTokenName returns the TokenName field value if set, zero value otherwise.
+// GetTokenName returns the TokenName field value
 func (o *Source) GetTokenName() string {
-	if o == nil || isNil(o.TokenName) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.TokenName
+
+	return o.TokenName
 }
 
-// GetTokenNameOk returns a tuple with the TokenName field value if set, nil otherwise
+// GetTokenNameOk returns a tuple with the TokenName field value
 // and a boolean to check if the value has been set.
 func (o *Source) GetTokenNameOk() (*string, bool) {
-	if o == nil || isNil(o.TokenName) {
+	if o == nil {
 		return nil, false
 	}
-	return o.TokenName, true
+	return &o.TokenName, true
 }
 
-// HasTokenName returns a boolean if a field has been set.
-func (o *Source) HasTokenName() bool {
-	if o != nil && !isNil(o.TokenName) {
-		return true
-	}
-
-	return false
-}
-
-// SetTokenName gets a reference to the given string and assigns it to the TokenName field.
+// SetTokenName sets field value
 func (o *Source) SetTokenName(v string) {
-	o.TokenName = &v
+	o.TokenName = v
 }
 
-// GetTokenExpiry returns the TokenExpiry field value if set, zero value otherwise.
+// GetTokenExpiry returns the TokenExpiry field value
 func (o *Source) GetTokenExpiry() float32 {
-	if o == nil || isNil(o.TokenExpiry) {
+	if o == nil {
 		var ret float32
 		return ret
 	}
-	return *o.TokenExpiry
+
+	return o.TokenExpiry
 }
 
-// GetTokenExpiryOk returns a tuple with the TokenExpiry field value if set, nil otherwise
+// GetTokenExpiryOk returns a tuple with the TokenExpiry field value
 // and a boolean to check if the value has been set.
 func (o *Source) GetTokenExpiryOk() (*float32, bool) {
-	if o == nil || isNil(o.TokenExpiry) {
+	if o == nil {
 		return nil, false
 	}
-	return o.TokenExpiry, true
+	return &o.TokenExpiry, true
 }
 
-// HasTokenExpiry returns a boolean if a field has been set.
-func (o *Source) HasTokenExpiry() bool {
-	if o != nil && !isNil(o.TokenExpiry) {
-		return true
-	}
-
-	return false
-}
-
-// SetTokenExpiry gets a reference to the given float32 and assigns it to the TokenExpiry field.
+// SetTokenExpiry sets field value
 func (o *Source) SetTokenExpiry(v float32) {
-	o.TokenExpiry = &v
+	o.TokenExpiry = v
 }
 
-// GetPublicNkey returns the PublicNkey field value if set, zero value otherwise.
+// GetPublicNkey returns the PublicNkey field value
 func (o *Source) GetPublicNkey() string {
-	if o == nil || isNil(o.PublicNkey) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.PublicNkey
+
+	return o.PublicNkey
 }
 
-// GetPublicNkeyOk returns a tuple with the PublicNkey field value if set, nil otherwise
+// GetPublicNkeyOk returns a tuple with the PublicNkey field value
 // and a boolean to check if the value has been set.
 func (o *Source) GetPublicNkeyOk() (*string, bool) {
-	if o == nil || isNil(o.PublicNkey) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PublicNkey, true
+	return &o.PublicNkey, true
 }
 
-// HasPublicNkey returns a boolean if a field has been set.
-func (o *Source) HasPublicNkey() bool {
-	if o != nil && !isNil(o.PublicNkey) {
-		return true
-	}
-
-	return false
-}
-
-// SetPublicNkey gets a reference to the given string and assigns it to the PublicNkey field.
+// SetPublicNkey sets field value
 func (o *Source) SetPublicNkey(v string) {
-	o.PublicNkey = &v
+	o.PublicNkey = v
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
+// GetType returns the Type field value
 func (o *Source) GetType() string {
-	if o == nil || isNil(o.Type) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Type
+
+	return o.Type
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *Source) GetTypeOk() (*string, bool) {
-	if o == nil || isNil(o.Type) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return &o.Type, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *Source) HasType() bool {
-	if o != nil && !isNil(o.Type) {
-		return true
-	}
-
-	return false
-}
-
-// SetType gets a reference to the given string and assigns it to the Type field.
+// SetType sets field value
 func (o *Source) SetType(v string) {
-	o.Type = &v
+	o.Type = v
 }
 
 // GetConfig returns the Config field value if set, zero value otherwise.
-func (o *Source) GetConfig() map[string]string {
+func (o *Source) GetConfig() map[string]interface{} {
 	if o == nil || isNil(o.Config) {
-		var ret map[string]string
+		var ret map[string]interface{}
 		return ret
 	}
-	return *o.Config
+	return o.Config
 }
 
 // GetConfigOk returns a tuple with the Config field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Source) GetConfigOk() (*map[string]string, bool) {
+func (o *Source) GetConfigOk() (map[string]interface{}, bool) {
 	if o == nil || isNil(o.Config) {
-		return nil, false
+		return map[string]interface{}{}, false
 	}
 	return o.Config, true
 }
@@ -271,9 +231,41 @@ func (o *Source) HasConfig() bool {
 	return false
 }
 
-// SetConfig gets a reference to the given map[string]string and assigns it to the Config field.
-func (o *Source) SetConfig(v map[string]string) {
-	o.Config = &v
+// SetConfig gets a reference to the given map[string]interface{} and assigns it to the Config field.
+func (o *Source) SetConfig(v map[string]interface{}) {
+	o.Config = v
+}
+
+// GetAdditionalConfig returns the AdditionalConfig field value if set, zero value otherwise.
+func (o *Source) GetAdditionalConfig() map[string]string {
+	if o == nil || isNil(o.AdditionalConfig) {
+		var ret map[string]string
+		return ret
+	}
+	return *o.AdditionalConfig
+}
+
+// GetAdditionalConfigOk returns a tuple with the AdditionalConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Source) GetAdditionalConfigOk() (*map[string]string, bool) {
+	if o == nil || isNil(o.AdditionalConfig) {
+		return nil, false
+	}
+	return o.AdditionalConfig, true
+}
+
+// HasAdditionalConfig returns a boolean if a field has been set.
+func (o *Source) HasAdditionalConfig() bool {
+	if o != nil && !isNil(o.AdditionalConfig) {
+		return true
+	}
+
+	return false
+}
+
+// SetAdditionalConfig gets a reference to the given map[string]string and assigns it to the AdditionalConfig field.
+func (o *Source) SetAdditionalConfig(v map[string]string) {
+	o.AdditionalConfig = &v
 }
 
 func (o Source) MarshalJSON() ([]byte, error) {
@@ -286,26 +278,17 @@ func (o Source) MarshalJSON() ([]byte, error) {
 
 func (o Source) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.DescriptiveName) {
-		toSerialize["descriptive_name"] = o.DescriptiveName
-	}
-	if !isNil(o.SourceId) {
-		toSerialize["source_id"] = o.SourceId
-	}
-	if !isNil(o.TokenName) {
-		toSerialize["token_name"] = o.TokenName
-	}
-	if !isNil(o.TokenExpiry) {
-		toSerialize["token_expiry"] = o.TokenExpiry
-	}
-	if !isNil(o.PublicNkey) {
-		toSerialize["public_nkey"] = o.PublicNkey
-	}
-	if !isNil(o.Type) {
-		toSerialize["type"] = o.Type
-	}
+	toSerialize["descriptive_name"] = o.DescriptiveName
+	toSerialize["source_id"] = o.SourceId
+	toSerialize["token_name"] = o.TokenName
+	toSerialize["token_expiry"] = o.TokenExpiry
+	toSerialize["public_nkey"] = o.PublicNkey
+	toSerialize["type"] = o.Type
 	if !isNil(o.Config) {
 		toSerialize["config"] = o.Config
+	}
+	if !isNil(o.AdditionalConfig) {
+		toSerialize["additional_config"] = o.AdditionalConfig
 	}
 	return toSerialize, nil
 }

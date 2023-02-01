@@ -20,17 +20,19 @@ var _ MappedNullable = &TokenRequestData{}
 // TokenRequestData struct for TokenRequestData
 type TokenRequestData struct {
 	// The Public NKey of the user that is requesting a token
-	UserPubKey *string `json:"user_pub_key,omitempty"`
+	UserPubKey string `json:"user_pub_key"`
 	// Friendly user name
-	UserName *string `json:"user_name,omitempty"`
+	UserName string `json:"user_name"`
 }
 
 // NewTokenRequestData instantiates a new TokenRequestData object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTokenRequestData() *TokenRequestData {
+func NewTokenRequestData(userPubKey string, userName string) *TokenRequestData {
 	this := TokenRequestData{}
+	this.UserPubKey = userPubKey
+	this.UserName = userName
 	return &this
 }
 
@@ -42,68 +44,52 @@ func NewTokenRequestDataWithDefaults() *TokenRequestData {
 	return &this
 }
 
-// GetUserPubKey returns the UserPubKey field value if set, zero value otherwise.
+// GetUserPubKey returns the UserPubKey field value
 func (o *TokenRequestData) GetUserPubKey() string {
-	if o == nil || isNil(o.UserPubKey) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.UserPubKey
+
+	return o.UserPubKey
 }
 
-// GetUserPubKeyOk returns a tuple with the UserPubKey field value if set, nil otherwise
+// GetUserPubKeyOk returns a tuple with the UserPubKey field value
 // and a boolean to check if the value has been set.
 func (o *TokenRequestData) GetUserPubKeyOk() (*string, bool) {
-	if o == nil || isNil(o.UserPubKey) {
+	if o == nil {
 		return nil, false
 	}
-	return o.UserPubKey, true
+	return &o.UserPubKey, true
 }
 
-// HasUserPubKey returns a boolean if a field has been set.
-func (o *TokenRequestData) HasUserPubKey() bool {
-	if o != nil && !isNil(o.UserPubKey) {
-		return true
-	}
-
-	return false
-}
-
-// SetUserPubKey gets a reference to the given string and assigns it to the UserPubKey field.
+// SetUserPubKey sets field value
 func (o *TokenRequestData) SetUserPubKey(v string) {
-	o.UserPubKey = &v
+	o.UserPubKey = v
 }
 
-// GetUserName returns the UserName field value if set, zero value otherwise.
+// GetUserName returns the UserName field value
 func (o *TokenRequestData) GetUserName() string {
-	if o == nil || isNil(o.UserName) {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.UserName
+
+	return o.UserName
 }
 
-// GetUserNameOk returns a tuple with the UserName field value if set, nil otherwise
+// GetUserNameOk returns a tuple with the UserName field value
 // and a boolean to check if the value has been set.
 func (o *TokenRequestData) GetUserNameOk() (*string, bool) {
-	if o == nil || isNil(o.UserName) {
+	if o == nil {
 		return nil, false
 	}
-	return o.UserName, true
+	return &o.UserName, true
 }
 
-// HasUserName returns a boolean if a field has been set.
-func (o *TokenRequestData) HasUserName() bool {
-	if o != nil && !isNil(o.UserName) {
-		return true
-	}
-
-	return false
-}
-
-// SetUserName gets a reference to the given string and assigns it to the UserName field.
+// SetUserName sets field value
 func (o *TokenRequestData) SetUserName(v string) {
-	o.UserName = &v
+	o.UserName = v
 }
 
 func (o TokenRequestData) MarshalJSON() ([]byte, error) {
@@ -116,12 +102,8 @@ func (o TokenRequestData) MarshalJSON() ([]byte, error) {
 
 func (o TokenRequestData) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !isNil(o.UserPubKey) {
-		toSerialize["user_pub_key"] = o.UserPubKey
-	}
-	if !isNil(o.UserName) {
-		toSerialize["user_name"] = o.UserName
-	}
+	toSerialize["user_pub_key"] = o.UserPubKey
+	toSerialize["user_name"] = o.UserName
 	return toSerialize, nil
 }
 

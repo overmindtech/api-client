@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**UserPubKey** | Pointer to **string** | The Public NKey of the user that is requesting a token | [optional] 
-**UserName** | Pointer to **string** | Friendly user name | [optional] 
+**UserPubKey** | **string** | The Public NKey of the user that is requesting a token | 
+**UserName** | **string** | Friendly user name | 
 
 ## Methods
 
 ### NewTokenRequestData
 
-`func NewTokenRequestData() *TokenRequestData`
+`func NewTokenRequestData(userPubKey string, userName string, ) *TokenRequestData`
 
 NewTokenRequestData instantiates a new TokenRequestData object
 This constructor will assign default values to properties that have it defined,
@@ -45,11 +45,6 @@ and a boolean to check if the value has been set.
 
 SetUserPubKey sets UserPubKey field to given value.
 
-### HasUserPubKey
-
-`func (o *TokenRequestData) HasUserPubKey() bool`
-
-HasUserPubKey returns a boolean if a field has been set.
 
 ### GetUserName
 
@@ -70,11 +65,6 @@ and a boolean to check if the value has been set.
 
 SetUserName sets UserName field to given value.
 
-### HasUserName
-
-`func (o *TokenRequestData) HasUserName() bool`
-
-HasUserName returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

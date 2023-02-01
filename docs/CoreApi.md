@@ -35,7 +35,7 @@ import (
 )
 
 func main() {
-    adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest() // AdminCreateSourceRequest | 
+    adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest("stdlib", "aws") // AdminCreateSourceRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -101,7 +101,7 @@ import (
 )
 
 func main() {
-    tokenRequestData := *openapiclient.NewTokenRequestData() // TokenRequestData | 
+    tokenRequestData := *openapiclient.NewTokenRequestData("UserPubKey_example", "UserName_example") // TokenRequestData | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -428,7 +428,7 @@ import (
 
 func main() {
     sourceId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | ID of the source
-    adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest() // AdminCreateSourceRequest | 
+    adminCreateSourceRequest := *openapiclient.NewAdminCreateSourceRequest("stdlib", "aws") // AdminCreateSourceRequest | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
