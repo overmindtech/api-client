@@ -12,12 +12,14 @@ Name | Type | Description | Notes
 **Type** | **string** | What source to configure. Currently either \&quot;stdlib\&quot; or \&quot;aws\&quot; | 
 **Config** | Pointer to **map[string]interface{}** | Config for this source. See the source documentation for what source-specific config is available/required. This will be supplied directly to viper via a config file at &#x60;/etc/srcman/config/source.yaml&#x60; | [optional] 
 **AdditionalConfig** | Pointer to **map[string]string** | Additional config options that should be passed to the source. The keys of this object should be file names, and the values should be their content. These files will be made available to the source at runtime. Check the source&#39;s documentation for what to configure here if required | [optional] 
+**Healthy** | **bool** | Whether the source is healthy or not | 
+**Error** | Pointer to **string** | The error message if the source is unhealthy | [optional] 
 
 ## Methods
 
 ### NewSource
 
-`func NewSource(descriptiveName string, sourceId string, tokenName string, tokenExpiry float32, publicNkey string, type_ string, ) *Source`
+`func NewSource(descriptiveName string, sourceId string, tokenName string, tokenExpiry float32, publicNkey string, type_ string, healthy bool, ) *Source`
 
 NewSource instantiates a new Source object
 This constructor will assign default values to properties that have it defined,
@@ -201,6 +203,51 @@ SetAdditionalConfig sets AdditionalConfig field to given value.
 `func (o *Source) HasAdditionalConfig() bool`
 
 HasAdditionalConfig returns a boolean if a field has been set.
+
+### GetHealthy
+
+`func (o *Source) GetHealthy() bool`
+
+GetHealthy returns the Healthy field if non-nil, zero value otherwise.
+
+### GetHealthyOk
+
+`func (o *Source) GetHealthyOk() (*bool, bool)`
+
+GetHealthyOk returns a tuple with the Healthy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHealthy
+
+`func (o *Source) SetHealthy(v bool)`
+
+SetHealthy sets Healthy field to given value.
+
+
+### GetError
+
+`func (o *Source) GetError() string`
+
+GetError returns the Error field if non-nil, zero value otherwise.
+
+### GetErrorOk
+
+`func (o *Source) GetErrorOk() (*string, bool)`
+
+GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetError
+
+`func (o *Source) SetError(v string)`
+
+SetError sets Error field to given value.
+
+### HasError
+
+`func (o *Source) HasError() bool`
+
+HasError returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

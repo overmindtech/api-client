@@ -35,13 +35,17 @@ type Source struct {
 	Config map[string]interface{} `json:"config,omitempty"`
 	// Additional config options that should be passed to the source. The keys of this object should be file names, and the values should be their content. These files will be made available to the source at runtime. Check the source's documentation for what to configure here if required
 	AdditionalConfig *map[string]string `json:"additional_config,omitempty"`
+	// Whether the source is healthy or not
+	Healthy bool `json:"healthy"`
+	// The error message if the source is unhealthy
+	Error *string `json:"error,omitempty"`
 }
 
 // NewSource instantiates a new Source object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSource(descriptiveName string, sourceId string, tokenName string, tokenExpiry float32, publicNkey string, type_ string) *Source {
+func NewSource(descriptiveName string, sourceId string, tokenName string, tokenExpiry float32, publicNkey string, type_ string, healthy bool) *Source {
 	this := Source{}
 	this.DescriptiveName = descriptiveName
 	this.SourceId = sourceId
@@ -49,6 +53,7 @@ func NewSource(descriptiveName string, sourceId string, tokenName string, tokenE
 	this.TokenExpiry = tokenExpiry
 	this.PublicNkey = publicNkey
 	this.Type = type_
+	this.Healthy = healthy
 	return &this
 }
 
@@ -268,6 +273,62 @@ func (o *Source) SetAdditionalConfig(v map[string]string) {
 	o.AdditionalConfig = &v
 }
 
+// GetHealthy returns the Healthy field value
+func (o *Source) GetHealthy() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.Healthy
+}
+
+// GetHealthyOk returns a tuple with the Healthy field value
+// and a boolean to check if the value has been set.
+func (o *Source) GetHealthyOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Healthy, true
+}
+
+// SetHealthy sets field value
+func (o *Source) SetHealthy(v bool) {
+	o.Healthy = v
+}
+
+// GetError returns the Error field value if set, zero value otherwise.
+func (o *Source) GetError() string {
+	if o == nil || isNil(o.Error) {
+		var ret string
+		return ret
+	}
+	return *o.Error
+}
+
+// GetErrorOk returns a tuple with the Error field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Source) GetErrorOk() (*string, bool) {
+	if o == nil || isNil(o.Error) {
+		return nil, false
+	}
+	return o.Error, true
+}
+
+// HasError returns a boolean if a field has been set.
+func (o *Source) HasError() bool {
+	if o != nil && !isNil(o.Error) {
+		return true
+	}
+
+	return false
+}
+
+// SetError gets a reference to the given string and assigns it to the Error field.
+func (o *Source) SetError(v string) {
+	o.Error = &v
+}
+
 func (o Source) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -289,6 +350,10 @@ func (o Source) ToMap() (map[string]interface{}, error) {
 	}
 	if !isNil(o.AdditionalConfig) {
 		toSerialize["additional_config"] = o.AdditionalConfig
+	}
+	toSerialize["healthy"] = o.Healthy
+	if !isNil(o.Error) {
+		toSerialize["error"] = o.Error
 	}
 	return toSerialize, nil
 }

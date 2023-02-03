@@ -629,11 +629,13 @@ components:
     Source:
       description: A source that is capable of discovering items
       example:
+        healthy: true
         token_name: token_name
         descriptive_name: stdlib
         source_id: d05aa312-02df-4c8f-89b9-6f875e9ae8ef
         public_nkey: public_nkey
         type: aws
+        error: error
         token_expiry: 0.8008281904610115
         config:
           aws-regions:
@@ -692,8 +694,16 @@ components:
               -----BEGIN CERTIFICATE-----
               MIIEczCCA1ugAwIBAgIBADA...
           type: object
+        healthy:
+          description: Whether the source is healthy or not
+          example: true
+          type: boolean
+        error:
+          description: The error message if the source is unhealthy
+          type: string
       required:
       - descriptive_name
+      - healthy
       - public_nkey
       - source_id
       - token_expiry
