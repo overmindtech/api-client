@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   description: API for managing your Overmind account
   title: Overmind API
-  version: "0.4"
+  version: "0.5"
 servers:
 - url: https://www.df.overmind-demo.com/api
 paths:
@@ -629,7 +629,6 @@ components:
     Source:
       description: A source that is capable of discovering items
       example:
-        healthy: true
         token_name: token_name
         descriptive_name: stdlib
         source_id: d05aa312-02df-4c8f-89b9-6f875e9ae8ef
@@ -646,6 +645,7 @@ components:
           cacert.pem: |-
             -----BEGIN CERTIFICATE-----
             MIIEczCCA1ugAwIBAgIBADA...
+        status: progressing
       properties:
         descriptive_name:
           description: The descriptive name of the source
@@ -694,10 +694,14 @@ components:
               -----BEGIN CERTIFICATE-----
               MIIEczCCA1ugAwIBAgIBADA...
           type: object
-        healthy:
-          description: Whether the source is healthy or not
-          example: true
-          type: boolean
+        status:
+          description: Status of the source
+          enum:
+          - progressing
+          - healthy
+          - unhealthy
+          example: progressing
+          type: string
         error:
           description: The error message if the source is unhealthy
           type: string

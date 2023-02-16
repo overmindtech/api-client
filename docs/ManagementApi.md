@@ -25,14 +25,14 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ManagementApi.HealthzGet(context.Background()).Execute()
+    r, err := apiClient.ManagementApi.HealthzGet(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ManagementApi.HealthzGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -34,7 +34,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -100,7 +100,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -172,7 +172,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -244,7 +244,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -252,7 +252,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminDeleteAccount(context.Background(), accountName).Execute()
+    r, err := apiClient.AdminApi.AdminDeleteAccount(context.Background(), accountName).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminDeleteAccount``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -312,7 +312,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -321,7 +321,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminDeleteSource(context.Background(), accountName, sourceId).Execute()
+    r, err := apiClient.AdminApi.AdminDeleteSource(context.Background(), accountName, sourceId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminDeleteSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -383,7 +383,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -453,7 +453,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -526,7 +526,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -587,7 +587,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -657,7 +657,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -667,7 +667,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.AdminUpdateSource(context.Background(), accountName, sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+    r, err := apiClient.AdminApi.AdminUpdateSource(context.Background(), accountName, sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminUpdateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

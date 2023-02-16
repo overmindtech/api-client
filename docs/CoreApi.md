@@ -31,7 +31,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -97,7 +97,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -163,7 +163,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -171,7 +171,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CoreApi.DeleteSource(context.Background(), sourceId).Execute()
+    r, err := apiClient.CoreApi.DeleteSource(context.Background(), sourceId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.DeleteSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -231,7 +231,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -292,7 +292,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -362,7 +362,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -423,7 +423,7 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/overmindtech/api-server/overmind"
 )
 
 func main() {
@@ -432,7 +432,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.CoreApi.UpdateSource(context.Background(), sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
+    r, err := apiClient.CoreApi.UpdateSource(context.Background(), sourceId).AdminCreateSourceRequest(adminCreateSourceRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.UpdateSource``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
