@@ -330,6 +330,35 @@ paths:
       summary: Sources - Update
       tags:
       - admin
+  /admin/accounts/{account_name}/sources/keepalive:
+    post:
+      description: "Updates sources to keep them running in the background. This can\
+        \ be used to add explicit action, when the built-in keepalives are not sufficient."
+      operationId: AdminKeepaliveSources
+      parameters:
+      - description: The name of the account
+        explode: false
+        in: path
+        name: account_name
+        required: true
+        schema:
+          minLength: 1
+          pattern: "[A-z0-9-]+"
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      security:
+      - OAuth2:
+        - admin:write
+      summary: Sources - Keepalive
+      tags:
+      - admin
   /admin/accounts/{account_name}/tokens:
     post:
       description: Create a new NATS token for a given public NKey. The user requesting

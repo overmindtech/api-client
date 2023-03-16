@@ -789,6 +789,101 @@ func (a *AdminApiService) AdminGetSourceExecute(r ApiAdminGetSourceRequest) (*So
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiAdminKeepaliveSourcesRequest struct {
+	ctx context.Context
+	ApiService *AdminApiService
+	accountName string
+}
+
+func (r ApiAdminKeepaliveSourcesRequest) Execute() (*http.Response, error) {
+	return r.ApiService.AdminKeepaliveSourcesExecute(r)
+}
+
+/*
+AdminKeepaliveSources Sources - Keepalive
+
+Updates sources to keep them running in the background. This can be used to add explicit action, when the built-in keepalives are not sufficient.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param accountName The name of the account
+ @return ApiAdminKeepaliveSourcesRequest
+*/
+func (a *AdminApiService) AdminKeepaliveSources(ctx context.Context, accountName string) ApiAdminKeepaliveSourcesRequest {
+	return ApiAdminKeepaliveSourcesRequest{
+		ApiService: a,
+		ctx: ctx,
+		accountName: accountName,
+	}
+}
+
+// Execute executes the request
+func (a *AdminApiService) AdminKeepaliveSourcesExecute(r ApiAdminKeepaliveSourcesRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AdminApiService.AdminKeepaliveSources")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/accounts/{account_name}/sources/keepalive"
+	localVarPath = strings.Replace(localVarPath, "{"+"account_name"+"}", url.PathEscape(parameterValueToString(r.accountName, "accountName")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if strlen(r.accountName) < 1 {
+		return nil, reportError("accountName must have at least 1 elements")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiAdminListAccountsRequest struct {
 	ctx context.Context
 	ApiService *AdminApiService

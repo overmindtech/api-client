@@ -85,6 +85,7 @@ Class | Method | HTTP request | Description
 *AdminApi* | [**AdminDeleteSource**](docs/AdminApi.md#admindeletesource) | **Delete** /admin/accounts/{account_name}/sources/{source_id} | Sources - Delete
 *AdminApi* | [**AdminGetAccount**](docs/AdminApi.md#admingetaccount) | **Get** /admin/accounts/{account_name} | Accounts - Get details
 *AdminApi* | [**AdminGetSource**](docs/AdminApi.md#admingetsource) | **Get** /admin/accounts/{account_name}/sources/{source_id} | Sources - Get details
+*AdminApi* | [**AdminKeepaliveSources**](docs/AdminApi.md#adminkeepalivesources) | **Post** /admin/accounts/{account_name}/sources/keepalive | Sources - Keepalive
 *AdminApi* | [**AdminListAccounts**](docs/AdminApi.md#adminlistaccounts) | **Get** /admin/accounts | Accounts - List
 *AdminApi* | [**AdminListSources**](docs/AdminApi.md#adminlistsources) | **Get** /admin/accounts/{account_name}/sources | Sources - List
 *AdminApi* | [**AdminUpdateSource**](docs/AdminApi.md#adminupdatesource) | **Put** /admin/accounts/{account_name}/sources/{source_id} | Sources - Update

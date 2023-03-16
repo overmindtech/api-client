@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**AdminDeleteSource**](AdminApi.md#AdminDeleteSource) | **Delete** /admin/accounts/{account_name}/sources/{source_id} | Sources - Delete
 [**AdminGetAccount**](AdminApi.md#AdminGetAccount) | **Get** /admin/accounts/{account_name} | Accounts - Get details
 [**AdminGetSource**](AdminApi.md#AdminGetSource) | **Get** /admin/accounts/{account_name}/sources/{source_id} | Sources - Get details
+[**AdminKeepaliveSources**](AdminApi.md#AdminKeepaliveSources) | **Post** /admin/accounts/{account_name}/sources/keepalive | Sources - Keepalive
 [**AdminListAccounts**](AdminApi.md#AdminListAccounts) | **Get** /admin/accounts | Accounts - List
 [**AdminListSources**](AdminApi.md#AdminListSources) | **Get** /admin/accounts/{account_name}/sources | Sources - List
 [**AdminUpdateSource**](AdminApi.md#AdminUpdateSource) | **Put** /admin/accounts/{account_name}/sources/{source_id} | Sources - Update
@@ -503,6 +504,74 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AdminKeepaliveSources
+
+> AdminKeepaliveSources(ctx, accountName).Execute()
+
+Sources - Keepalive
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/overmindtech/api-server/overmind"
+)
+
+func main() {
+    accountName := "accountName_example" // string | The name of the account
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.AdminApi.AdminKeepaliveSources(context.Background(), accountName).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.AdminKeepaliveSources``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**accountName** | **string** | The name of the account | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAdminKeepaliveSourcesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[OAuth2](../README.md#OAuth2), [OAuth2](../README.md#OAuth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
