@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *CoreApi* | [**DeleteSource**](docs/CoreApi.md#deletesource) | **Delete** /core/sources/{source_id} | Sources - Delete
 *CoreApi* | [**GetAccount**](docs/CoreApi.md#getaccount) | **Get** /core/account | Account - Get details
 *CoreApi* | [**GetSource**](docs/CoreApi.md#getsource) | **Get** /core/sources/{source_id} | Sources - Get details
+*CoreApi* | [**KeepaliveSources**](docs/CoreApi.md#keepalivesources) | **Post** /core/sources/keepalive | Sources - Keepalive
 *CoreApi* | [**ListSources**](docs/CoreApi.md#listsources) | **Get** /core/sources | Sources - List
 *CoreApi* | [**UpdateSource**](docs/CoreApi.md#updatesource) | **Put** /core/sources/{source_id} | Sources - Update
 *ManagementApi* | [**HealthzGet**](docs/ManagementApi.md#healthzget) | **Get** /healthz | Health check

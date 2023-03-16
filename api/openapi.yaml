@@ -547,6 +547,24 @@ paths:
       summary: Sources - Update
       tags:
       - core
+  /core/sources/keepalive:
+    post:
+      description: "Updates sources to keep them running in the background. This can\
+        \ be used to add explicit action, when the built-in keepalives are not sufficient."
+      operationId: KeepaliveSources
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      security:
+      - OAuth2:
+        - source:write
+      summary: Sources - Keepalive
+      tags:
+      - core
   /core/tokens:
     post:
       description: Create a new NATS token for a given public NKey. The user requesting

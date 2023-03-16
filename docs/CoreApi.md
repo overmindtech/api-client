@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**DeleteSource**](CoreApi.md#DeleteSource) | **Delete** /core/sources/{source_id} | Sources - Delete
 [**GetAccount**](CoreApi.md#GetAccount) | **Get** /core/account | Account - Get details
 [**GetSource**](CoreApi.md#GetSource) | **Get** /core/sources/{source_id} | Sources - Get details
+[**KeepaliveSources**](CoreApi.md#KeepaliveSources) | **Post** /core/sources/keepalive | Sources - Keepalive
 [**ListSources**](CoreApi.md#ListSources) | **Get** /core/sources | Sources - List
 [**UpdateSource**](CoreApi.md#UpdateSource) | **Put** /core/sources/{source_id} | Sources - Update
 
@@ -339,6 +340,65 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## KeepaliveSources
+
+> KeepaliveSources(ctx).Execute()
+
+Sources - Keepalive
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/overmindtech/api-server/overmind"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    r, err := apiClient.CoreApi.KeepaliveSources(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `CoreApi.KeepaliveSources``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiKeepaliveSourcesRequest struct via the builder pattern
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[OAuth2](../README.md#OAuth2), [OAuth2](../README.md#OAuth2)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
